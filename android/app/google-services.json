@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "811782606352",
+    "project_id": "traver-79d4b",
+    "storage_bucket": "traver-79d4b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811782606352:android:758d6b3bbff18ec56fc495",
+        "android_client_info": {
+          "package_name": "com.example.traver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811782606352-mbmouu26vk4rp8pb1gpvb4foo6709cl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.traver",
+            "certificate_hash": "ebd90fe53e8c4cb5f2c9428566411e7941dc81a0"
+          }
+        },
+        {
+          "client_id": "811782606352-6tj211njbr71ssjss6oidsdgfm7ulmfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD6huO4jeK3H6nDYLNAabHjZvsoLdzuG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811782606352-6tj211njbr71ssjss6oidsdgfm7ulmfh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "811782606352-3g1ulcnqm7u3sqbjot58nsve3tmau3u8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.traver"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
