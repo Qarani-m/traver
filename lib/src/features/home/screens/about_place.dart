@@ -28,9 +28,6 @@ class AboutPlace extends StatelessWidget {
     const String inputData =
         "When using custom values we have specified the to be our targe have specified the to be our targe have specified the to be our targe have specified the to be our targe have specified the to be our target text for highlighting  with purple italic font. We know that the website is a very useful website. (rti..notNow should not be parsed) But Instagram is more fun to use. We should not forget the contribution of wikipedia played in the growth of web. If you like this package do consider liking it so that it could be useful to more developers like you. Thank you for your time";
     late GoogleMapController mapController;
-
-    final LatLng _center = const LatLng(45.521563, -122.677433);
-
     void _onMapCreated(GoogleMapController controller) {
       mapController = controller;
     }
@@ -190,7 +187,8 @@ class AboutPlace extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       "19+",
-                                      style: textTheme.titleMedium,
+                                      style: textTheme.titleMedium?.copyWith(
+                                          color: AppColors.fadedTextColor),
                                     ),
                                   ),
                                 )
@@ -210,11 +208,12 @@ class AboutPlace extends StatelessWidget {
               Container(
                 height: 210,
                 width: 390,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
                 child: GoogleMap(
                   onMapCreated: _onMapCreated,
-                  initialCameraPosition:const  CameraPosition(
-                    target:  LatLng(45.521563, -122.677433),
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(45.521563, -122.677433),
                     zoom: 11.0,
                   ),
                 ),
@@ -229,9 +228,94 @@ class AboutPlace extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
+              Review(),
+              Review(),
+              Review(),
+              Review(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Review extends StatelessWidget {
+  const Review({
+    super.key,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+      var textTheme = Theme.of(context).textTheme;
+    return SizedBox(
+      width: 390.w,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 60.h,
+            width: 60.h,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: AssetImage(
+                      AppImageStrings.onboarding[2],
+                    ),
+                    fit: BoxFit.cover)),
+          ),
+          SizedBox(
+            width: 10.w,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10.h,
+              ),
+              SizedBox(
+                width: 260.w,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Kuta Resort",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      Text("Today", style: textTheme.bodySmall)
+                    ]),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: List.generate(
+                    3,
+                    (index) => Icon(
+                          Icons.star,
+                          color: AppColors.secondaryColor,
+                          size: 20.h,
+                        )),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              SizedBox(
+                width: 260.w,
+
+                child: Text(
+                    "Pretty nice, the entrance is quite far from the parking lot but would be much of a problem if it wasnt raining, love the interiror",
+                    style: textTheme.bodySmall?.copyWith(height: 1.7),
+                    ),
+              ),
+              SizedBox(height:20.h)
+            ],
+          ),
+        ],
       ),
     );
   }
