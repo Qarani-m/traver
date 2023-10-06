@@ -34,7 +34,6 @@ class LoginController extends GetxController{
 
   void toggleVisibility(){
     obscureText.value = !obscureText.value;
-    print(obscureText.value);
   }
 
 
@@ -62,7 +61,7 @@ Future<void> signInWithGoogle() async {
      await authController.saveToFireStore(userName, userEmail, userPhone);
     }
   } catch (error) {
-    print("Error signing in with Google: $error");
+   authController.warningSnackBar("Auth failed", "Error signing in with Google: $error");
   }
 }
 

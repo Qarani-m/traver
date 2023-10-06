@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:traver/src/constants/colors.dart';
 
 class AppTheme {
@@ -11,7 +10,7 @@ class AppTheme {
         fontFamily: "Urbanist",
         textTheme: TextTheme(
             titleLarge: TextStyle(
-                color: AppColors.darkColor,
+                color: AppColors.darkTextColor,
                 fontSize: 43.sp,
                 fontWeight: FontWeight.w400),
             titleMedium: TextStyle(
@@ -21,10 +20,19 @@ class AppTheme {
              titleSmall: TextStyle(
                 color: AppColors.darkTextColor,
                 fontSize: 17.sp,
-                fontWeight: FontWeight.w400),
-
+                fontWeight: FontWeight.w600),
             //
             //
+            bodyLarge: TextStyle(
+              color: AppColors.darkTextColor.withOpacity(0.5),
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w100,
+            ),
+            bodyMedium: TextStyle(
+              color: AppColors.darkTextColor,
+              fontSize: 19.sp,
+              fontWeight: FontWeight.w600,
+            ),
             bodySmall: TextStyle(
                 color: AppColors.darkTextColor,
                 fontSize: 14.sp,
@@ -58,6 +66,16 @@ class AppTheme {
                 fontWeight: FontWeight.w400),
             //
             //
+            bodyLarge: TextStyle(
+              color: AppColors.fadedTextColor.withOpacity(0.5),
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w100,
+            ),
+            bodyMedium: TextStyle(
+              color: AppColors.fadedTextColor,
+              fontSize: 19.sp,
+              fontWeight: FontWeight.w600,
+            ),
             bodySmall: TextStyle(
                 color: AppColors.fadedTextColor,
                 fontSize: 14.sp,
