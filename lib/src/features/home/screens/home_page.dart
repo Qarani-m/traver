@@ -25,6 +25,8 @@ class HomePage extends StatelessWidget {
       "Camping",
       "Wildlife"
     ];
+    var textTheme = Theme.of(context).textTheme;
+    var iconTheme = Theme.of(context).iconTheme;
     var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
         body: SingleChildScrollView(
@@ -59,9 +61,9 @@ class HomePage extends StatelessWidget {
                       ),
                       Text(
                         "Hello, ${homePageController.name.value.split(' ')[0].toLowerCase()}!",
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontSize: 20.sp,
-                            ),
+                        style: textTheme.titleSmall?.copyWith(
+                          fontSize: 20.sp,
+                        ),
                       )
                     ],
                   ),
@@ -69,7 +71,7 @@ class HomePage extends StatelessWidget {
                     children: [
                       Positioned(
                           child: IconTheme(
-                              data: Theme.of(context).iconTheme,
+                              data: iconTheme,
                               child: Icon(
                                 Icons.notifications_outlined,
                                 size: 30.h,
@@ -91,7 +93,7 @@ class HomePage extends StatelessWidget {
               ),
               Text(
                 "Where do you\nwant to explore today",
-                style: Theme.of(context).textTheme.titleMedium,
+                style: textTheme.titleMedium,
               ),
               SizedBox(
                 height: 30.h,
@@ -105,10 +107,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     Text(
                       "Search destination",
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: textTheme.bodyLarge,
                     ),
                     IconTheme(
-                        data: Theme.of(context).iconTheme,
+                        data: iconTheme,
                         child: Icon(
                           Icons.search,
                           size: 35.h,
@@ -124,18 +126,18 @@ class HomePage extends StatelessWidget {
                 height: 10.h,
               ),
               SizedBox(
-                height: 80.h,
+                height: 50.h,
                 child: ListView.builder(
-                  itemCount: 6,
+                  itemCount: explore.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       children: [
                         Container(
                           padding: EdgeInsets.only(left: 20.w, right: 20.w),
-                          height: 60.h,
+                          height: 50.h,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
+                              borderRadius: BorderRadius.circular(20.r),
                               border: Border.all(
                                   color: brightness == Brightness.dark
                                       ? AppColors.fadedTextColor
@@ -153,7 +155,7 @@ class HomePage extends StatelessWidget {
                               ),
                               Text(
                                 explore[index],
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: textTheme.bodySmall,
                               )
                             ],
                           ),
@@ -200,6 +202,8 @@ class test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+
     AuthController authController = Get.put(AuthController());
     HomePageController homePageController = Get.put(HomePageController());
     return Padding(
@@ -212,29 +216,29 @@ class test extends StatelessWidget {
           children: [
             Text(
               "Name: ${homePageController.name.value}",
-              style: Theme.of(context).textTheme.bodySmall,
+              style: textTheme.bodySmall,
             ),
             Text(
               "Email: ${homePageController.email.value}",
-              style: Theme.of(context).textTheme.bodySmall,
+              style: textTheme.bodySmall,
             ),
             Text(
               "Phone: ${homePageController.phone.value}",
-              style: Theme.of(context).textTheme.bodySmall,
+              style: textTheme.bodySmall,
             ),
             SizedBox(
               child: Row(
                 children: [
                   Text(
                     "Itrests: ",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: textTheme.bodySmall,
                   ),
                   Row(
                     children: List.generate(homePageController.intrests.length,
                         (index) {
                       return Text(
                         " ${homePageController.intrests[index]} , ",
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: textTheme.bodySmall,
                       );
                     }),
                   )

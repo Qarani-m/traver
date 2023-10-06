@@ -54,6 +54,8 @@ dependencies:
   firebase_phone_auth_handler: ^1.0.8
   salomon_bottom_bar: ^3.3.2
   flutter_rating_bar: ^4.0.1
+  parsed_readmore: ^0.0.6
+  google_maps_flutter: ^2.5.0
 
   
 flutter_launcher_icons:
