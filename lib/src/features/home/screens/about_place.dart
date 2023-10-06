@@ -208,9 +208,9 @@ class AboutPlace extends StatelessWidget {
                 height: 20.h,
               ),
               Container(
-                height: 300,
-                width: 340,
-                color: AppColors.accentColor,
+                height: 210,
+                width: 390,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.r)),
                 child: GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition:const  CameraPosition(
