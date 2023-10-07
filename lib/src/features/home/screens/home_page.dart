@@ -6,6 +6,8 @@ import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/auth/controllers/auth_controller.dart';
 import 'package:traver/src/features/home/controller/homepage_controller.dart';
+import 'package:traver/src/features/home/screens/category.dart';
+import 'package:traver/src/features/home/screens/search.dart';
 import 'package:traver/src/features/home/widgets/favourite_place.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
 import 'package:traver/src/features/home/widgets/right_left.dart';
@@ -98,30 +100,35 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                height: 50.h,
-                width: 390.w,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Search destination",
-                      style: textTheme.bodyLarge,
-                    ),
-                    IconTheme(
-                        data: iconTheme,
-                        child: Icon(
-                          Icons.search,
-                          size: 35.h,
-                        ))
-                  ],
+              GestureDetector(
+                onTap: (){Get.to(Search());},
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  height: 50.h,
+                  width: 390.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Search destination",
+                        style: textTheme.bodyLarge,
+                      ),
+                      IconTheme(
+                          data: iconTheme,
+                          child: Icon(
+                            Icons.search,
+                            size: 35.h,
+                          ))
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
                 height: 20.h,
               ),
-              const RightLeft(left: "Choose Category", right: "See all"),
+               GestureDetector(
+                onTap: ()=> Get.to(Categorys()),
+                child: RightLeft(left: "Choose Category", right: "See all")),
               SizedBox(
                 height: 10.h,
               ),

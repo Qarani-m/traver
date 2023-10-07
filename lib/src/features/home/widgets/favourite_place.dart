@@ -16,7 +16,7 @@ class FavouritePlace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        var textTheme = Theme.of(context).textTheme;
+    var textTheme = Theme.of(context).textTheme;
     var iconTheme = Theme.of(context).iconTheme;
     return GestureDetector(
       onTap: () => Get.to(AboutPlace()),
@@ -36,8 +36,8 @@ class FavouritePlace extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.r),
                           image: DecorationImage(
-                              image: AssetImage(
-                                  AppImageStrings.onboarding[index]),
+                              image:
+                                  AssetImage(AppImageStrings.onboarding[index]),
                               fit: BoxFit.cover)),
                     ),
                     Container(
@@ -55,52 +55,46 @@ class FavouritePlace extends StatelessWidget {
                                 Colors.transparent
                               ])),
                       child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Align(
                             alignment: Alignment.topRight,
                             child: CircleAvatar(
-                                backgroundColor:
-                                    brightness == Brightness.dark
-                                        ? AppColors.darkColor
-                                        : Colors.white,
+                                backgroundColor: brightness == Brightness.dark
+                                    ? AppColors.darkColor
+                                    : Colors.white,
                                 child: Icon(
                                   Icons.favorite,
                                   color: AppColors.likeColor,
                                 )),
                           ),
                           Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(left: 5.h),
                                   child: Text("Kuta beach",
-                                      style: Theme.of(context).textTheme
+                                      style: Theme.of(context)
+                                          .textTheme
                                           .bodyMedium
-                                          ?.copyWith(
-                                              color: Colors.white)),
+                                          ?.copyWith(color: Colors.white)),
                                 ),
                                 SizedBox(
                                   height: 15.h,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     IconTheme(
-                                        data:
-                                            Theme.of(context).iconTheme,
-                                        child: const Icon(Icons
-                                            .location_on_outlined)),
+                                        data: Theme.of(context).iconTheme,
+                                        child: const Icon(
+                                            Icons.location_on_outlined)),
                                     Text(
                                       "Bali,",
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall
-                                          ?.copyWith(
-                                              color: Colors.white),
+                                          ?.copyWith(color: Colors.white),
                                     ),
                                     SizedBox(
                                       width: 5.h,
@@ -109,8 +103,7 @@ class FavouritePlace extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall
-                                            ?.copyWith(
-                                                color: Colors.white))
+                                            ?.copyWith(color: Colors.white))
                                   ],
                                 ),
                                 SizedBox(
@@ -119,8 +112,7 @@ class FavouritePlace extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.h),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       RatingBar.builder(
                                         unratedColor: Colors.white,
@@ -129,8 +121,7 @@ class FavouritePlace extends StatelessWidget {
                                         direction: Axis.horizontal,
                                         allowHalfRating: true,
                                         itemCount: 5,
-                                        itemBuilder: (context, _) =>
-                                            const Icon(
+                                        itemBuilder: (context, _) => const Icon(
                                           Icons.star,
                                           color: Colors.amber,
                                         ),
@@ -145,8 +136,7 @@ class FavouritePlace extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall
-                                            ?.copyWith(
-                                                color: Colors.white),
+                                            ?.copyWith(color: Colors.white),
                                       )
                                     ],
                                   ),

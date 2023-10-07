@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parsed_readmore/parsed_readmore.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/home/widgets/review.dart';
+import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
 class AboutPlace extends StatelessWidget {
   const AboutPlace({super.key});
@@ -36,7 +38,7 @@ class AboutPlace extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height - 60.h,
             child: SingleChildScrollView(
               child: Padding(
@@ -67,6 +69,180 @@ class AboutPlace extends StatelessWidget {
                           image: DecorationImage(
                               image: AssetImage(AppImageStrings.onboarding[2]),
                               fit: BoxFit.cover)),
+                      child: Container(
+                        height: 210.h,
+                        width: 390.w,
+                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                AppColors.darkColor.withOpacity(0.5),
+                                Colors.transparent
+                              ]),
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: 
+
+
+
+
+
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5.h),
+                                  child: Text("Kuta beach",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: Colors.white)),
+                                ),
+                                 Padding(
+                                   padding: EdgeInsets.only(left:5.h),
+                                   child: Text(
+                                        "100+ people have reviewed",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.white),
+                                      ),
+                                 ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconTheme(
+                                        data: Theme.of(context).iconTheme,
+                                        child: const Icon(
+                                            Icons.location_on_outlined)),
+                                    Text(
+                                      "Bali,",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      width: 5.h,
+                                    ),
+                                    Text("Indonesia",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.white))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 4.h),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      RatingBar.builder(
+                                        unratedColor: Colors.white,
+                                        initialRating: 4.3,
+                                        minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 5,
+                                        itemBuilder: (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        itemSize: 20.h,
+                                        onRatingUpdate: (rating) {},
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      Text(
+                                        "4.8",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      ),
                     ),
                     SizedBox(
                       height: 30.h,
@@ -293,115 +469,7 @@ class AboutPlace extends StatelessWidget {
   }
 }
 
-class Review extends StatelessWidget {
-  const Review({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    var textTheme = Theme.of(context).textTheme;
-    return SizedBox(
-      width: 390.w,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 60.h,
-            width: 60.h,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage(
-                      AppImageStrings.onboarding[2],
-                    ),
-                    fit: BoxFit.cover)),
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10.h,
-              ),
-              SizedBox(
-                width: 260.w,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Kuta Resort",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      Text("Today", style: textTheme.bodySmall)
-                    ]),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                children: List.generate(
-                    3,
-                    (index) => Icon(
-                          Icons.star,
-                          color: AppColors.secondaryColor,
-                          size: 20.h,
-                        )),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              SizedBox(
-                width: 260.w,
-                child: Text(
-                  "Pretty nice, the entrance is quite far from the parking lot but would be much of a problem if it wasnt raining, love the interiror",
-                  style: textTheme.bodySmall?.copyWith(height: 1.7),
-                ),
-              ),
-              SizedBox(height: 20.h)
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TopBar extends StatelessWidget {
-  const TopBar(
-      {super.key,
-      required this.text,
-      this.widget = const SizedBox(
-        width: 20,
-      )});
-  final String text;
-  final Widget widget;
-
-  @override
-  Widget build(BuildContext context) {
-    var textTheme = Theme.of(context).textTheme;
-    var iconTheme = Theme.of(context).iconTheme;
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      GestureDetector(
-        onTap: () => Get.back(),
-        child: IconTheme(
-          data: iconTheme,
-          child: const Icon(Icons.arrow_back),
-        ),
-      ),
-      Text(
-        "Kuta beach",
-        style: textTheme.bodyMedium,
-      ),
-      widget
-    ]);
-  }
-}
 
 
 
