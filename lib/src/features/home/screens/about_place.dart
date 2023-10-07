@@ -101,18 +101,15 @@ class AboutPlace extends StatelessWidget {
                                           .bodyMedium
                                           ?.copyWith(color: Colors.white)),
                                 ),
-                                 Padding(
-                                   padding: EdgeInsets.only(left:5.h),
-                                   child: Text(
-                                        "100+ people have reviewed",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(color: Colors.white),
-                                      ),
-                                 ),
+                                 Text(
+                                      "100+ people have reviewed",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.white),
+                                    ),
                                 SizedBox(
-                                  height: 5.h,
+                                  height: 15.h,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
