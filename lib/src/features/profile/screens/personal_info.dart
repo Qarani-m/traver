@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/auth/widgets/text_field.dart';
+import 'package:traver/src/features/profile/controller/profile_controller.dart';
 import 'package:traver/src/widget/auth/button.dart';
 
 class PersonalInfo extends StatelessWidget {
-  const PersonalInfo({super.key});
+   PersonalInfo({super.key});
+  ProfileController profileController = Get.put(ProfileController());
+
 
   @override
   Widget build(BuildContext context) {
         var textTheme = Theme.of(context).textTheme;
     var iconTheme = Theme.of(context).iconTheme;
     var brightness = MediaQuery.of(context).platformBrightness;
-        TextEditingController controller = TextEditingController();
-    controller.text = "Martin Karani";
+        // TextEditingController controller = TextEditingController();
+    // controller.text = "Martin Karani";
 
     return Scaffold(
       appBar: AppBar(
@@ -67,13 +71,13 @@ class PersonalInfo extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.h,),
-              const Text("Martin Karani"),
+              Text(profileController.prefsList[0]),
               SizedBox(
                       height: 30.h,
                     ),
                     TextFielAuth(
                       obscureText: false,
-                      controller: controller,
+                      controller: profileController.namecontroller,
                       label: "Person Responsible",
                       hint: "",
                     ),
@@ -82,7 +86,7 @@ class PersonalInfo extends StatelessWidget {
                     ),
                     TextFielAuth(
                       obscureText: false,
-                      controller: controller,
+                      controller: profileController.phonecontroller,
                       label: "Phone Number",
                       hint: "",
                     ),
@@ -91,7 +95,7 @@ class PersonalInfo extends StatelessWidget {
                     ),
                     TextFielAuth(
                       obscureText: false,
-                      controller: controller,
+                      controller: profileController.emailcontroller,
                       label: "Email",
                       hint: "",
                     ),
@@ -100,7 +104,7 @@ class PersonalInfo extends StatelessWidget {
                     ),
                     TextFielAuth(
                       obscureText: false,
-                      controller: controller,
+                      controller: profileController.idNumbercontroller,
                       label: "ID Number",
                       hint: "",
                     ),
@@ -109,8 +113,8 @@ class PersonalInfo extends StatelessWidget {
                     ),
                     TextFielAuth(
                       obscureText: false,
-                      controller: controller,
-                      label: "Phone Number",
+                      controller: profileController.locationcontroller,
+                      label: "Location",
                       hint: "",
                     ),
 

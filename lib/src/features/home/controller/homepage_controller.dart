@@ -16,7 +16,7 @@ class HomePageController extends GetxController {
     const HomePage(),
     const Trips(),
     const WishList(),
-    const Profile()
+     Profile()
   ];
 
   @override
