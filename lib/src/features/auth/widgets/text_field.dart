@@ -23,7 +23,8 @@ class TextFielAuth extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
     return SizedBox(
-      height: 75.h,
+      // color: Colors.red,
+      height: 55.h,
       child: Obx(
         () => TextFormField(
           validator: (value) {

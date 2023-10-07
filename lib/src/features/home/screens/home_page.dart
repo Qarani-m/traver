@@ -7,6 +7,7 @@ import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/auth/controllers/auth_controller.dart';
 import 'package:traver/src/features/home/controller/homepage_controller.dart';
 import 'package:traver/src/features/home/screens/category.dart';
+import 'package:traver/src/features/home/screens/notifications.dart';
 import 'package:traver/src/features/home/screens/search.dart';
 import 'package:traver/src/features/home/widgets/favourite_place.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
@@ -72,13 +73,16 @@ class HomePage extends StatelessWidget {
                   Stack(
                     children: [
                       Positioned(
-                          child: IconTheme(
-                              data: iconTheme,
-                              child: Icon(
-                                Icons.notifications_outlined,
-                                size: 30.h,
-                                weight: 0.1,
-                              ))),
+                          child: GestureDetector(
+                            onTap: () => Get.to(Notifications()),
+                            child: IconTheme(
+                                data: iconTheme,
+                                child: Icon(
+                                  Icons.notifications_outlined,
+                                  size: 30.h,
+                                  weight: 0.1,
+                                )),
+                          )),
                       Positioned(
                           top: 2.h,
                           right: 2.h,

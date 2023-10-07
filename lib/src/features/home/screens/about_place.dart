@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:parsed_readmore/parsed_readmore.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/booking/screens/booking_details.dart';
 import 'package:traver/src/features/home/widgets/review.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
@@ -101,15 +103,19 @@ class AboutPlace extends StatelessWidget {
                                           .bodyMedium
                                           ?.copyWith(color: Colors.white)),
                                 ),
-                                 Text(
-                                      "100+ people have reviewed",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(color: Colors.white),
-                                    ),
+                                 Padding(
+                                  padding: EdgeInsets.only(left: 5.h),
+
+                                   child: Text(
+                                        "100+ people have reviewed",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.white),
+                                      ),
+                                 ),
                                 SizedBox(
-                                  height: 15.h,
+                                  height: 5.h,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +142,7 @@ class AboutPlace extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(
-                                  height: 10.h,
+                                  height: 5.h,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.h),
@@ -446,7 +452,7 @@ class AboutPlace extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {Get.to(const Bookingdetails());},
                   child: Container(
                     alignment: Alignment.center,
                     height: 50.h,

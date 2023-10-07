@@ -145,7 +145,7 @@ class RegisterEmail extends StatelessWidget {
                         label: "Email",
                         hint: ""),
                     SizedBox(
-                      height: 5.h,
+                      height: 20.h,
                     ),
                     TextFielAuth(
                         controller: signUpController.phoneController,

@@ -34,6 +34,7 @@ class Login extends StatelessWidget {
               label: "Email",
               hint: "Email",
             ),
+            SizedBox(height: 20.h,),
             TextFielAuth(
               controller: loginController.passwordController,
               obscureText: loginController.obscureText.value,
