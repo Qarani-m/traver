@@ -8,6 +8,10 @@ class AppTheme {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.secondaryColor),
         useMaterial3: true,
         fontFamily: "Urbanist",
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: AppColors.darkColor)
+        ),
         textTheme: TextTheme(
             titleLarge: TextStyle(
                 color: AppColors.darkTextColor,
@@ -51,6 +55,11 @@ class AppTheme {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.secondaryColor),
         useMaterial3: true,
         fontFamily: "Urbanist",
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.darkColor,
+          iconTheme: IconThemeData(color: AppColors.fadedTextColor)
+
+        ),
         textTheme: TextTheme(
             titleLarge: TextStyle(
                 color: AppColors.fadedTextColor,

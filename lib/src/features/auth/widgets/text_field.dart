@@ -12,12 +12,14 @@ class TextFielAuth extends StatelessWidget {
     required this.obscureText,
     required this.label,
     required this.hint,
+    this.readonly=false
   });
 
   final TextEditingController controller;
   final bool obscureText;
   final String label;
   final String hint;
+  final bool readonly;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class TextFielAuth extends StatelessWidget {
                   return "something is wrong";
             }
           },
+          readOnly: readonly,
           controller: controller,
           obscureText: loginController.obscureText.value && label == "Password",
           obscuringCharacter: "●",

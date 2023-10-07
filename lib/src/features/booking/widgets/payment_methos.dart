@@ -21,7 +21,7 @@ class Method extends StatelessWidget {
         width:  390.w,
         decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.fadedTextColor)
+        border: Border.all(color: MediaQuery.of(context).platformBrightness==Brightness.dark?AppColors.fadedTextColor.withOpacity(0.1): AppColors.fadedTextColor)
         ),
         child: Row(
           children: [

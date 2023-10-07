@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/home/screens/category.dart';
 import 'package:traver/src/widget/auth/button.dart';
 
 class SuccessPayment extends StatelessWidget {
@@ -43,9 +44,9 @@ class SuccessPayment extends StatelessWidget {
             LargeButton(
                 text: "Continue Exploring",
                 onTap: ()async {
+                  Get.off(Categorys());
 
 
-                  Get.offNamed("explore");
                 })
           ],
         ),

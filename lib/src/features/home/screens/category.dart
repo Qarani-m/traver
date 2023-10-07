@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/home/screens/about_place.dart';
 import 'package:traver/src/features/home/screens/filter.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
@@ -37,8 +38,8 @@ class Categorys extends StatelessWidget {
               TopBar(
                 text: "Category",
                 widget: GestureDetector(
-                  onTap: ()=> Get.to(FilterSearch()),
-                  child: IconTheme(data: iconTheme, child: Icon(Icons.tune))),
+                  onTap: ()=> Get.to(const FilterSearch()),
+                  child: IconTheme(data: iconTheme, child: const Icon(Icons.tune))),
               ),
               SizedBox(
                 height: 30.h,
@@ -123,10 +124,12 @@ class Categorys extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              PopularPackage()
+              GestureDetector(
+                onTap: ()=> Get.to(const AboutPlace()),
+                child: const PopularPackage())
             ],
           ),
         ),

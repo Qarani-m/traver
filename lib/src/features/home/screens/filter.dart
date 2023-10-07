@@ -226,7 +226,7 @@ class _FilterSearchState extends State<FilterSearch> {
                                 border: Border.all(color:AppColors.fadedTextColor),
                                   borderRadius: BorderRadius.circular(15.r)),
                               child:
-                                  Text("Clear", style: textTheme.titleSmall),
+                                  Text("Clear", style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500, fontSize: 15.sp)),
                             ),
                           ),
                           GestureDetector(
@@ -239,7 +239,7 @@ class _FilterSearchState extends State<FilterSearch> {
                                   color: AppColors.secondaryColor,
                                   borderRadius: BorderRadius.circular(15.r)),
                               child:
-                                  Text("Booking", style: textTheme.titleSmall),
+                                  Text("Booking", style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500, fontSize: 15.sp)),
                             ),
                           )
                         ],
