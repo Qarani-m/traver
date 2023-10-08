@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +71,7 @@ class CustomerCare extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           StreamBuilder<QuerySnapshot>(
-                            stream: profileController.usersStream,
+                            stream: profileController.messageStream,
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {
@@ -97,15 +98,15 @@ class CustomerCare extends StatelessWidget {
                                 Map<String, dynamic> data =
                                     document.data()! as Map<String, dynamic>;
                                 return data['isFromAdmin']
-                                    ? RecvText(
+                                    ? data['repliedTo'] == profileController.prefsList[1]?RecvText(
                                         text: data['message'].toString(),
                                         time: DateFormat('HH:mm').format(data[
                                                 'time']
-                                            .toDate())) // data['time'].toString())
-                                    : SenderText(
+                                            .toDate())) :SizedBox()
+                                    : data['senderEmail'] == profileController.prefsList[1]?SenderText(
                                         text: data['message'].toString(),
                                         time: DateFormat('HH:mm')
-                                            .format(data['time'].toDate()));
+                                            .format(data['time'].toDate())):SizedBox();
                               }).toList());
                             },
                           )
@@ -215,8 +216,9 @@ class SenderText extends StatelessWidget {
                 text,
                 style: textTheme.bodySmall,
               ),
-              SizedBox(height: 
-              5.h,),
+              SizedBox(
+                height: 5.h,
+              ),
               Opacity(
                 opacity: 0.5,
                 child: Text(

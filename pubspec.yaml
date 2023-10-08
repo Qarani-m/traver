@@ -59,9 +59,11 @@ dependencies:
   syncfusion_flutter_sliders: 
   file_picker: ^5.5.0
   firebase_storage:
-  cached_network_image:
   url_launcher: ^6.1.14
   intl:
+  async: ^2.11.0
+  tuple:
+  rxdart:
   
 flutter_launcher_icons:
   android: "launcher_icon"

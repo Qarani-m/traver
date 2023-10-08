@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/features/profile/models/faqs.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:async/async.dart';
+
 
 class ProfileController extends GetxController
     with CustomerCareMixin, FaqsMixin {
@@ -34,7 +36,10 @@ class ProfileController extends GetxController
     print(prefsList);
     personalInfoFieldFiller();
   }
-
+ Future<String> getMixinEmail() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("email") ?? "";
+  }
   Future<List<String>> getPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = prefs.getString("name") ?? "";
@@ -191,8 +196,24 @@ class ProfileController extends GetxController
 }
 
 mixin CustomerCareMixin on GetxController {
-  final Stream<QuerySnapshot> usersStream =
-      FirebaseFirestore.instance.collection('cutomerCareMessages').snapshots();
+
+final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
+    .collection('cutomerCareMessages')
+    .snapshots();
+
+// final Stream<QuerySnapshot> senderEmailStream = FirebaseFirestore.instance
+//     .collection('cutomerCareMessages')
+//     .where('senderEmail', isEqualTo: 'emqarani@gmail.com')
+//     .snapshots();
+
+// final Stream<QuerySnapshot> repliedToStream = FirebaseFirestore.instance
+//     .collection('cutomerCareMessages')
+//     .where('repliedTo', isEqualTo: 'emqarani@gmail.com')
+//     .snapshots();
+
+
+
+
   TextEditingController messageController = TextEditingController();
   @override
   void onInit() async {
@@ -243,7 +264,7 @@ String generateSequentialId() {
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     
-    // Use the specified customDocumentId when adding the document
+
     await firestore.collection('cutomerCareMessages').doc(generateSequentialId()).set(userData);
 
     // ignore: empty_catches
