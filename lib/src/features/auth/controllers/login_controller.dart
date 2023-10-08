@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,6 +65,35 @@ Future<void> signInWithGoogle() async {
    authController.warningSnackBar("Auth failed", "Error signing in with Google: $error");
   }
 }
+
+
+Future<void> checkIfUserExist() async{
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
+ try {
+    await firestore.runTransaction((transaction) async {
+      final userDocRef = firestore.collection('users').doc(email);
+      final userDoc = await transaction.get(userDocRef);
+
+      if (userDoc.exists) {
+        print("User Existd");
+      } else {
+      }
+    });
+    
+    print('User image updated or created successfully.');
+  } catch (e) {
+    print('Error updating or creating user image: $e');
+  }
+
+
+
+}
+
+
+
+
+
 
 
 

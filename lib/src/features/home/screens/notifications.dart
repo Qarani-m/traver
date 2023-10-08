@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
-import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class Notifications extends StatelessWidget {
   const Notifications({super.key});

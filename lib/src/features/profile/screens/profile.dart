@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/auth/controllers/auth_controller.dart';
 import 'package:traver/src/features/profile/controller/profile_controller.dart';
 import 'package:traver/src/features/profile/screens/customer_care.dart';
 import 'package:traver/src/features/profile/screens/faqs.dart';
@@ -160,7 +161,7 @@ class Setting extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {AuthController().signoutUser();},
                           child: Container(
                             alignment: Alignment.center,
                             height: 50.h,
