@@ -62,12 +62,20 @@ class AuthController extends GetxController {
       "name": name,
       "email": email,
       "phone": phone,
+      "imageUrl": "",
+      "location": "",
+      "idNumber": "",
+      "intresets": []
     }).then((value) => print("User Added"));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("name", name);
     prefs.setString("email", email);
     prefs.setString("phone", phone);
+    prefs.setString("idNumber", "");
+    prefs.setString("location", "");
+    prefs.setString("imageUrl", "");
+    prefs.setStringList("intrest", ([]) as List<String>);
 
     Get.offAllNamed("/registerSucces");
   }
@@ -120,10 +128,14 @@ class AuthController extends GetxController {
             querySnapshot.docs.first;
         if (userDoc.exists) {
           Map<String, dynamic> userData = userDoc.data()!;
-
           prefs.setString("name", userData['name']);
           prefs.setString("email", userData['email']);
           prefs.setString("phone", userData['phone']);
+          prefs.setString("idNumber", userData['idNumber']);
+          prefs.setString("location", userData['location']);
+          prefs.setString("imageUrl", userData['imageUrl']);
+print("-------------------->  ${prefs.getString("idNumber")}");
+         
         } else {
           warningSnackBar("Auth Failed", "User not found");
         }
@@ -139,9 +151,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> signoutUser() async {
-    _auth.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("goToHomePage", false);
+    prefs.clear();
+    prefs.setBool("goToHomePage", true);
+     prefs.setBool("isFirstTimer", false);
+    _auth.signOut();
+
   }
 
   warningSnackBar(String title, String message) {
@@ -179,6 +194,14 @@ class AuthController extends GetxController {
       // ignore: empty_catches
     } catch (error) {}
   }
+
+
+
+   @override
+void dispose() {
+  Get.delete<AuthController>(); // Dispose of the controller
+  super.dispose();
+}
 }
 
 

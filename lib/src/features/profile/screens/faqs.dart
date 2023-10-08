@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
+import 'package:traver/src/features/profile/controller/profile_controller.dart';
+import 'package:traver/src/features/profile/models/faqs.dart';
 
 class Faqs extends StatelessWidget {
-  const Faqs({super.key});
+   Faqs({super.key});
+  ProfileController profileController = Get.find<ProfileController>();
+
 
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
-    var iconTheme = Theme.of(context).iconTheme;
-    var brightness = MediaQuery.of(context).platformBrightness;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,43 +28,56 @@ class Faqs extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: AppSizes.horizontalPadding,
-            right: AppSizes.horizontalPadding,
-          ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            SizedBox(
-              height: 20.h,
+      body:Obx(
+        () {
+          if (profileController.faqsList.isEmpty) {
+            return Center(
+                        child: LoadingAnimationWidget.threeArchedCircle(
+                            color: AppColors.secondaryColor, size: 40.h),
+                      );
+          }
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: AppSizes.horizontalPadding,
+                right: AppSizes.horizontalPadding,
+              ),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                      
+                    children: List.generate(profileController.faqsList.length, (index) =>QandA(model: profileController.faqsList[index], index: index,))
+                  ),
+
+                  ElevatedButton(onPressed:()=>profileController.loadFaqs() , child: Text("kjsksju"))
+                ],
+              ),
             ),
-            QandA(textTheme: textTheme),
-            QandA(textTheme: textTheme),
-            QandA(textTheme: textTheme),
-          ]),
-        ),
+          );
+        },
       ),
     );
   }
 }
 
 class QandA extends StatelessWidget {
-  const QandA({
-    super.key,
-    required this.textTheme,
-  });
+  const QandA({super.key, required this.model, required this.index});
 
-  final TextTheme textTheme;
+  final FaqsModel model;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = Theme.of(context).textTheme;
+
     return Padding(
-      padding:  EdgeInsets.only(bottom: 20.h),
+      padding: EdgeInsets.only(bottom: 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("1: Let's Talk about refunds"),
+          Text("${index.toString()}: ${model.question}"),
           Padding(
             padding: EdgeInsets.only(left: 10.w),
             child: SizedBox(
@@ -68,7 +85,7 @@ class QandA extends StatelessWidget {
               child: Opacity(
                 opacity: 0.5,
                 child: Text(
-                  "to give it a border and rounded corners.we display the character count to show the number of characters lines, and it will expand or contract based on the content.",
+                  model.answer??"-",
                   style: textTheme.bodySmall?.copyWith(fontSize: 12.sp),
                 ),
               ),

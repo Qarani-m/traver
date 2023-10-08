@@ -12,7 +12,8 @@ class TextFielAuth extends StatelessWidget {
     required this.obscureText,
     required this.label,
     required this.hint,
-    this.readonly=false
+    this.readonly=false,
+    this.numberKeyboard = false
   });
 
   final TextEditingController controller;
@@ -20,6 +21,7 @@ class TextFielAuth extends StatelessWidget {
   final String label;
   final String hint;
   final bool readonly;
+  final bool numberKeyboard;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class TextFielAuth extends StatelessWidget {
       height: 55.h,
       child: Obx(
         () => TextFormField(
+          keyboardType: numberKeyboard?TextInputType.number:TextInputType.text,
           validator: (value) {
             switch (label) {
               case "First Name" || "Last Name":

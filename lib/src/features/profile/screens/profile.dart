@@ -12,7 +12,7 @@ import 'package:traver/src/features/profile/screens/personal_info.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
-  ProfileController profileController = Get.put(ProfileController());
+  ProfileController profileController = Get.find<ProfileController>();
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
@@ -37,14 +37,28 @@ class Profile extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 60.h,
-                  width: 60.h,
-                  decoration: BoxDecoration(
+                Obx(()=> Container(
+                    height: 60.h,
+                    width: 60.h,
+                    decoration:const BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: AssetImage(AppImageStrings.onboarding[2]),
-                          fit: BoxFit.cover)),
+                    ),
+                    child: profileController.profilePicImageUrl.value
+                            .startsWith("https")
+                        ? ClipOval(
+                            child: Image(
+                            height: 70.h,
+                            width: 70.h,
+                            image: NetworkImage(
+                                profileController.profilePicImageUrl.value),
+                            fit: BoxFit.cover,
+                          ))
+                        : Center(
+                            child: Text(
+                            "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          )),
+                  ),
                 ),
                 SizedBox(
                   width: 25.w,
@@ -118,10 +132,10 @@ class Setting extends StatelessWidget {
             Get.to(PersonalInfo());
           }
           if (index == 1) {
-            Get.to( Faqs());
+            Get.to(Faqs());
           }
           if (index == 2) {
-            Get.to( CustomerCare());
+            Get.to(CustomerCare());
           }
           if (index == 3) {
             Get.bottomSheet(Container(
@@ -161,7 +175,9 @@ class Setting extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
-                          onTap: () {AuthController().signoutUser();},
+                          onTap: () {
+                            AuthController().signoutUser();
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: 50.h,

@@ -13,7 +13,7 @@ class HomePageController extends GetxController {
   RxInt currentPageIndex  = 0.obs;
 
   List pages = [
-    const HomePage(),
+     HomePage(),
     const Trips(),
     const WishList(),
      Profile()
@@ -30,5 +30,9 @@ class HomePageController extends GetxController {
 
   }
 
-  // void refresh(String name, String)
+ @override
+void dispose() {
+  Get.delete<HomePageController>(); // Dispose of the controller
+  super.dispose();
+}
 }

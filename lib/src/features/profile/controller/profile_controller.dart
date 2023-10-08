@@ -6,9 +6,27 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:traver/src/features/profile/models/faqs.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProfileController extends GetxController {
+class ProfileController extends GetxController
+    with CustomerCareMixin, FaqsMixin {
   final text = ["Personal Information", "FAQ", "Customer care", "Logout"];
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController phonecontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController idNumbercontroller = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  RxString profilePicImageUrl = "".obs;
+  RxList<String> prefsList = <String>[].obs;
+  String phoneNumer = "";
+  String idNumber = "";
+  String location = "";
+  RxString errorValue = "".obs;
+  RxBool errorStatus = false.obs;
+  RxBool successStatus = false.obs;
+  RxBool isUpdatingProfilePic = false.obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -17,12 +35,6 @@ class ProfileController extends GetxController {
     personalInfoFieldFiller();
   }
 
-  List<String> prefsList = [];
-  TextEditingController namecontroller = TextEditingController();
-  TextEditingController phonecontroller = TextEditingController();
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController idNumbercontroller = TextEditingController();
-  TextEditingController locationcontroller = TextEditingController();
   Future<List<String>> getPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = prefs.getString("name") ?? "";
@@ -30,15 +42,82 @@ class ProfileController extends GetxController {
     String phone = prefs.getString("phone") ?? "";
     String idNumber = prefs.getString("idNumber") ?? "";
     String location = prefs.getString("location") ?? "";
-    String imageUrl= prefs.getString("location") ?? "";
-
+    String imageUrl = prefs.getString("imageUrl") ?? "";
+    profilePicImageUrl.value = imageUrl;
     prefsList.clear();
     prefsList.add(name); //0
     prefsList.add(email); //1
     prefsList.add(phone); //2
     prefsList.add(idNumber); //3
     prefsList.add(location); //4
+    prefsList.add(imageUrl); //5
     return prefsList;
+  }
+
+  void updateFieldValues() async {
+    phoneNumer = phonecontroller.text;
+    idNumber = idNumbercontroller.text;
+    location = locationController.text;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (phoneNumer.length != 10 || !phoneNumer.startsWith("07")) {
+      errorValue.value = "Phone Number";
+      errorStatus.value = true;
+      return;
+    }
+    if (idNumber.length != 8) {
+      errorValue.value = "ID Number";
+      errorStatus.value = true;
+      return;
+    }
+    if (location.length < 3) {
+      errorValue.value = "City Name";
+      errorStatus.value = true;
+      return;
+    }
+    errorStatus.value = false;
+    prefs.setString("phone", phoneNumer);
+    prefs.setString("idNumber", idNumber);
+    prefs.setString("location", location);
+
+    prefsList[2] = phoneNumer;
+    prefsList[3] = idNumber;
+    prefsList[4] = location;
+    await updateFireStorePersonalinfor(phoneNumer, idNumber, location);
+    personalInfoFieldFiller();
+    successStatus.value = true;
+
+    // getPrefs();
+  }
+
+  Future<void> updateFireStorePersonalinfor(
+      String phoneNumber, String idNumber, String city) async {
+    isUpdatingProfilePic.value = true;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    String email = prefs.getString("email")!;
+
+    try {
+      final QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Iterate through the matching documents (usually just one)
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          final DocumentReference docRef = doc.reference;
+          await docRef.update({'phone': phoneNumer});
+          await docRef.update({'idNumber': idNumber});
+          await docRef.update({'location': city});
+        }
+      }
+      isUpdatingProfilePic.value = false;
+      return;
+    } catch (e) {
+      return;
+    }
   }
 
   void personalInfoFieldFiller() {
@@ -46,75 +125,157 @@ class ProfileController extends GetxController {
     emailcontroller.text = prefsList[1].isEmpty ? "-" : prefsList[1];
     phonecontroller.text = prefsList[2].isEmpty ? "-" : prefsList[2];
     idNumbercontroller.text = prefsList[3].isEmpty ? "-" : prefsList[3];
-    locationcontroller.text = prefsList[4].isEmpty ? "-" : prefsList[4];
+    locationController.text = prefsList[4].isEmpty ? "-" : prefsList[4];
   }
 
-RxBool isUpdatingProfilePic = false.obs;
+  Future<void> changeProfilePic() async {
+    PlatformFile? pickedFile;
+    final result = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (result == null || result.files.isEmpty) return;
 
+    pickedFile = result.files.first;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final path = "profileImages/${prefs.getString("email") ?? pickedFile.name}";
+    final file = File(pickedFile.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
 
-Future<void> changeProfilePic() async {
-  PlatformFile? pickedFile;
-  final result = await FilePicker.platform.pickFiles(type: FileType.image);
-  if (result == null || result.files.isEmpty) return;
-
-  pickedFile = result.files.first;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  final path = "profileImages/${prefs.getString("email") ?? pickedFile.name}";
-  final file = File(pickedFile.path!);
-  final ref = FirebaseStorage.instance.ref().child(path);
-
-  try {
-    isUpdatingProfilePic.value=true;
-    UploadTask uploadTask = ref.putFile(file);
-    uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-      double progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      print('Upload progress: $progress%');
-
-    });
-    TaskSnapshot taskSnapshot = await uploadTask;
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-    isUpdatingProfilePic.value=false;
-
-
-    print('Download URL: $downloadUrl');
-  } catch (e) {
-    print('Error uploading file: $e');
+    try {
+      isUpdatingProfilePic.value = true;
+      UploadTask uploadTask = ref.putFile(file);
+      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+        double progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        print('Upload progress: $progress%');
+      });
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      updateFirestoreImageUrl(downloadUrl);
+      isUpdatingProfilePic.value = false;
+      return;
+    } catch (e) {
+      return;
+    }
   }
-}
 
-Future<void>updateFirestoreImageUrl(String imageUrl, String email)async{
-    // CollectionReference users = FirebaseFirestore.instance.collection('users');
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> updateFirestoreImageUrl(String imageUrl) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    String email = prefs.getString("email")!;
 
-final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
-  try {
-    await firestore.runTransaction((transaction) async {
-      final userDocRef = firestore.collection('users').doc(email);
-      final userDoc = await transaction.get(userDocRef);
+    try {
+      final QuerySnapshot querySnapshot = await firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
 
-      if (userDoc.exists) {
-        transaction.update(userDocRef, {'imageurl': imageUrl});
-      } else {
-        // The document doesn't exist, create it with the 'imageurl' field
-        transaction.set(userDocRef, {'imageurl': imageUrl});
+      if (querySnapshot.docs.isNotEmpty) {
+        // Iterate through the matching documents (usually just one)
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          final DocumentReference docRef = doc.reference;
+          await docRef.update({'imageUrl': imageUrl.toString()});
+          prefs.setString("imageUrl", imageUrl.toString());
+          profilePicImageUrl.value = imageUrl;
+        }
       }
-    });
-    
-    print('User image updated or created successfully.');
-  } catch (e) {
-    print('Error updating or creating user image: $e');
+      return;
+    } catch (e) {
+      return;
+    }
   }
 
+  @override
+  void dispose() {
+    Get.delete<ProfileController>(); // Dispose of the controller
+    super.dispose();
+  }
+}
 
+mixin CustomerCareMixin on GetxController {
+  final Stream<QuerySnapshot> usersStream =
+      FirebaseFirestore.instance.collection('cutomerCareMessages').snapshots();
+  TextEditingController messageController = TextEditingController();
+  @override
+  void onInit() async {
+    super.onInit();
+    print("--------------------->Mixin two: Initializing...");
+  }
 
+  void callCC() async {
+    final call = Uri.parse('tel:0704847676');
+    if (await canLaunchUrl(call)) {
+      launchUrl(call);
+    } else {
+      throw 'Could not launch $call';
+    }
+  }
 
+  RxInt messageLength = 0.obs;
 
-    Get.offAllNamed("/registerSucces");
-
+String generateSequentialId() {
+  DateTime now = DateTime.now();
+  String formattedDateTime = now.toIso8601String();
+  String documentId = formattedDateTime.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
+  return documentId;
 }
 
 
 
+
+
+
+
+ void sendText() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String email = prefs.getString("email") ?? "";
+  var message = messageController.text;
+  DateTime now = DateTime.now();
+  Timestamp timeStamp = Timestamp.fromDate(now);
+  Map<String, dynamic> userData = {
+    'isFromAdmin': false,
+    'message': message,
+    'senderEmail': email,
+    "time": timeStamp
+  };
+
+  try {
+    messageController.text = "";
+    messageLength.value = 0;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    
+    // Use the specified customDocumentId when adding the document
+    await firestore.collection('cutomerCareMessages').doc(generateSequentialId()).set(userData);
+
+    // ignore: empty_catches
+  } catch (e) {}
+}
+
+}
+
+mixin FaqsMixin on GetxController {
+  RxList<FaqsModel> faqsList = <FaqsModel>[].obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await loadFaqs();
+  }
+
+  Future<void> loadFaqs() async {
+    faqsList.value = <FaqsModel>[];
+
+    try {
+      final QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('faqs').get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (final doc in querySnapshot.docs) {
+          final data = doc.data() as Map<String, dynamic>;
+          faqsList.add(FaqsModel(
+            question: data['question'],
+            answer: data["answer"],
+          ));
+        }
+      }
+    } catch (e) {}
+  }
 }

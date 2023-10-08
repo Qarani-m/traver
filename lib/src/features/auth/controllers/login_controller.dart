@@ -58,8 +58,8 @@ Future<void> signInWithGoogle() async {
       final userEmail = user.email??"";
       final userName = user.displayName??"";
       final userPhone = user.phoneNumber??"";
-      await authController.getUserByEmail(email);
-     await authController.saveToFireStore(userName, userEmail, userPhone);
+      checkIfUserExist(userEmail, userName, userPhone);
+      // await authController.getUserByEmail(email);
     }
   } catch (error) {
    authController.warningSnackBar("Auth failed", "Error signing in with Google: $error");
@@ -67,23 +67,27 @@ Future<void> signInWithGoogle() async {
 }
 
 
-Future<void> checkIfUserExist() async{
+Future<void> checkIfUserExist(String email, String userName, String userPhone) async{
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   
  try {
-    await firestore.runTransaction((transaction) async {
-      final userDocRef = firestore.collection('users').doc(email);
-      final userDoc = await transaction.get(userDocRef);
-
-      if (userDoc.exists) {
-        print("User Existd");
-      } else {
-      }
-    });
+    final QuerySnapshot querySnapshot = await firestore
+        .collection('users') // Replace with your collection name
+        .where('email', isEqualTo: email)
+        .get();
     
-    print('User image updated or created successfully.');
+    if (querySnapshot.docs.isNotEmpty) {
+      print("Found");
+      await authController.getUserByEmail(email);
+      Get.toNamed("/homepage");
+      } else {
+      print("not Found");
+
+     await authController.saveToFireStore(userName, email, userPhone);
+
+      }
+    
   } catch (e) {
-    print('Error updating or creating user image: $e');
   }
 
 
@@ -92,7 +96,11 @@ Future<void> checkIfUserExist() async{
 
 
 
-
+ @override
+void dispose() {
+  Get.delete<LoginController>(); // Dispose of the controller
+  super.dispose();
+}
 
 
 

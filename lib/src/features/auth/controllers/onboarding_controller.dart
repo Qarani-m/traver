@@ -26,4 +26,10 @@ class OnboardingController extends GetxController {
     pageController.dispose(); // Dispose of the PageController
     super.onClose();
   }
+
+   @override
+void dispose() {
+  Get.delete<OnboardingController>(); // Dispose of the controller
+  super.dispose();
+}
 }

@@ -148,6 +148,7 @@ class RegisterEmail extends StatelessWidget {
                       height: 20.h,
                     ),
                     TextFielAuth(
+                      numberKeyboard: true,
                         controller: signUpController.phoneController,
                         obscureText: false,
                         label: "Phone",

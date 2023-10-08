@@ -12,13 +12,15 @@ import 'package:traver/src/features/home/screens/search.dart';
 import 'package:traver/src/features/home/widgets/favourite_place.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
 import 'package:traver/src/features/home/widgets/right_left.dart';
+import 'package:traver/src/features/profile/controller/profile_controller.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    HomePageController homePageController = Get.put(HomePageController());
+    ProfileController profileController = Get.find<ProfileController>();
+    HomePageController homePageController = Get.find<HomePageController>();
 
     List<String> explore = [
       "Beach",
@@ -52,12 +54,28 @@ class HomePage extends StatelessWidget {
                       Container(
                         height: 40.h,
                         width: 40.h,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(AppImageStrings.onboarding[2]),
-                              fit: BoxFit.cover),
                         ),
+                        child: profileController.profilePicImageUrl.value
+                                .startsWith("https")
+                            ? ClipOval(
+                                child: Image(
+                                height: 40.h,
+                                width: 40.h,
+                                image: NetworkImage(
+                                    profileController.profilePicImageUrl.value),
+                                fit: BoxFit.cover,
+                              ))
+                            : Center(
+                                child: profileController.prefsList.isNotEmpty
+                                    ? Text(
+                                        "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      )
+                                    : Container()),
                       ),
                       SizedBox(
                         width: 10.w,
@@ -74,15 +92,15 @@ class HomePage extends StatelessWidget {
                     children: [
                       Positioned(
                           child: GestureDetector(
-                            onTap: () => Get.to(Notifications()),
-                            child: IconTheme(
-                                data: iconTheme,
-                                child: Icon(
-                                  Icons.notifications_outlined,
-                                  size: 30.h,
-                                  weight: 0.1,
-                                )),
-                          )),
+                        onTap: () => Get.to(Notifications()),
+                        child: IconTheme(
+                            data: iconTheme,
+                            child: Icon(
+                              Icons.notifications_outlined,
+                              size: 30.h,
+                              weight: 0.1,
+                            )),
+                      )),
                       Positioned(
                           top: 2.h,
                           right: 2.h,
@@ -105,7 +123,9 @@ class HomePage extends StatelessWidget {
                 height: 30.h,
               ),
               GestureDetector(
-                onTap: (){Get.to(Search());},
+                onTap: () {
+                  Get.to(Search());
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   height: 50.h,
@@ -130,9 +150,9 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-               GestureDetector(
-                onTap: ()=> Get.to(Categorys()),
-                child: RightLeft(left: "Choose Category", right: "See all")),
+              GestureDetector(
+                  onTap: () => Get.to(Categorys()),
+                  child: RightLeft(left: "Choose Category", right: "See all")),
               SizedBox(
                 height: 10.h,
               ),
