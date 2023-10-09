@@ -77,11 +77,9 @@ Future<void> checkIfUserExist(String email, String userName, String userPhone) a
         .get();
     
     if (querySnapshot.docs.isNotEmpty) {
-      print("Found");
       await authController.getUserByEmail(email);
       Get.toNamed("/homepage");
       } else {
-      print("not Found");
 
      await authController.saveToFireStore(userName, email, userPhone);
 

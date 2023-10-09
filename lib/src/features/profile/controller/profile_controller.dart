@@ -8,8 +8,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/features/profile/models/faqs.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:async/async.dart';
-
 
 class ProfileController extends GetxController
     with CustomerCareMixin, FaqsMixin {
@@ -33,13 +31,14 @@ class ProfileController extends GetxController
   void onInit() async {
     super.onInit();
     await getPrefs();
-    print(prefsList);
     personalInfoFieldFiller();
   }
- Future<String> getMixinEmail() async{
+
+  Future<String> getMixinEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("email") ?? "";
   }
+
   Future<List<String>> getPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = prefs.getString("name") ?? "";
@@ -148,9 +147,8 @@ class ProfileController extends GetxController
       isUpdatingProfilePic.value = true;
       UploadTask uploadTask = ref.putFile(file);
       uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        double progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        print('Upload progress: $progress%');
+        // double progress =
+        //     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       });
       TaskSnapshot taskSnapshot = await uploadTask;
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
@@ -196,29 +194,15 @@ class ProfileController extends GetxController
 }
 
 mixin CustomerCareMixin on GetxController {
-
-final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
-    .collection('cutomerCareMessages')
-    .snapshots();
-
-// final Stream<QuerySnapshot> senderEmailStream = FirebaseFirestore.instance
-//     .collection('cutomerCareMessages')
-//     .where('senderEmail', isEqualTo: 'emqarani@gmail.com')
-//     .snapshots();
-
-// final Stream<QuerySnapshot> repliedToStream = FirebaseFirestore.instance
-//     .collection('cutomerCareMessages')
-//     .where('repliedTo', isEqualTo: 'emqarani@gmail.com')
-//     .snapshots();
-
-
-
+  final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
+      .collection('cutomerCareMessages')
+      .where('senderEmail', isEqualTo: 'emqarani@gmail.com')
+      .snapshots();
 
   TextEditingController messageController = TextEditingController();
   @override
   void onInit() async {
     super.onInit();
-    print("--------------------->Mixin two: Initializing...");
   }
 
   void callCC() async {
@@ -232,45 +216,41 @@ final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
 
   RxInt messageLength = 0.obs;
 
-String generateSequentialId() {
-  DateTime now = DateTime.now();
-  String formattedDateTime = now.toIso8601String();
-  String documentId = formattedDateTime.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
-  return documentId;
-}
+  String generateSequentialId() {
+    DateTime now = DateTime.now();
+    String formattedDateTime = now.toIso8601String();
+    String documentId =
+        formattedDateTime.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
+    return documentId;
+  }
 
+  void sendText() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString("email") ?? "";
+    var message = messageController.text;
+    DateTime now = DateTime.now();
+    Timestamp timeStamp = Timestamp.fromDate(now);
+    Map<String, dynamic> userData = {
+      'isFromAdmin': false,
+      'message': message,
+      'senderEmail': email,
+      "time": timeStamp
+    };
 
+    try {
+      messageController.text = "";
+      messageLength.value = 0;
 
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+      await firestore
+          .collection('cutomerCareMessages')
+          .doc(generateSequentialId())
+          .set(userData);
 
-
-
- void sendText() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String email = prefs.getString("email") ?? "";
-  var message = messageController.text;
-  DateTime now = DateTime.now();
-  Timestamp timeStamp = Timestamp.fromDate(now);
-  Map<String, dynamic> userData = {
-    'isFromAdmin': false,
-    'message': message,
-    'senderEmail': email,
-    "time": timeStamp
-  };
-
-  try {
-    messageController.text = "";
-    messageLength.value = 0;
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    
-
-    await firestore.collection('cutomerCareMessages').doc(generateSequentialId()).set(userData);
-
-    // ignore: empty_catches
-  } catch (e) {}
-}
-
+      // ignore: empty_catches
+    } catch (e) {}
+  }
 }
 
 mixin FaqsMixin on GetxController {

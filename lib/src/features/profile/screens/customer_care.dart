@@ -54,7 +54,6 @@ class CustomerCare extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // TopBar(text: "Customer Care"),
               SizedBox(
                 height: 2.h,
               ),
@@ -65,7 +64,6 @@ class CustomerCare extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     height: 650.h,
                     width: 390.w,
-                    // color: Colors.blue,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -98,15 +96,15 @@ class CustomerCare extends StatelessWidget {
                                 Map<String, dynamic> data =
                                     document.data()! as Map<String, dynamic>;
                                 return data['isFromAdmin']
-                                    ? data['repliedTo'] == profileController.prefsList[1]?RecvText(
+                                    ? data['senderEmail'] == profileController.prefsList[1]?RecvText(
                                         text: data['message'].toString(),
                                         time: DateFormat('HH:mm').format(data[
                                                 'time']
-                                            .toDate())) :SizedBox()
+                                            .toDate())) :const SizedBox()
                                     : data['senderEmail'] == profileController.prefsList[1]?SenderText(
                                         text: data['message'].toString(),
                                         time: DateFormat('HH:mm')
-                                            .format(data['time'].toDate())):SizedBox();
+                                            .format(data['time'].toDate())):const SizedBox();
                               }).toList());
                             },
                           )

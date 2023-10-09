@@ -86,7 +86,7 @@ class AuthController extends GetxController {
       await _auth.sendPasswordResetEmail(
         email: email,
       );
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       warningSnackBar("Unknow User", "User does not exist");
     } catch (e) {
       warningSnackBar("Unknow User", "User does not exist");
@@ -134,8 +134,6 @@ class AuthController extends GetxController {
           prefs.setString("idNumber", userData['idNumber']);
           prefs.setString("location", userData['location']);
           prefs.setString("imageUrl", userData['imageUrl']);
-print("-------------------->  ${prefs.getString("idNumber")}");
-         
         } else {
           warningSnackBar("Auth Failed", "User not found");
         }
@@ -154,9 +152,8 @@ print("-------------------->  ${prefs.getString("idNumber")}");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     prefs.setBool("goToHomePage", true);
-     prefs.setBool("isFirstTimer", false);
+    prefs.setBool("isFirstTimer", false);
     _auth.signOut();
-
   }
 
   warningSnackBar(String title, String message) {
@@ -186,7 +183,6 @@ print("-------------------->  ${prefs.getString("idNumber")}");
       final UserCredential authResult =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Access the user's email from the User object
       final User? user = authResult.user;
       if (user != null) {
         final userEmail = user.email;
@@ -195,13 +191,11 @@ print("-------------------->  ${prefs.getString("idNumber")}");
     } catch (error) {}
   }
 
-
-
-   @override
-void dispose() {
-  Get.delete<AuthController>(); // Dispose of the controller
-  super.dispose();
-}
+  @override
+  void dispose() {
+    Get.delete<AuthController>(); // Dispose of the controller
+    super.dispose();
+  }
 }
 
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
-import 'package:traver/src/features/auth/controllers/login_controller.dart';
 import 'package:traver/src/features/auth/controllers/signup_controller.dart';
 import 'package:traver/src/widget/auth/button.dart';
 
