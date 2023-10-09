@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +14,6 @@ import 'package:traver/src/features/auth/views/login.dart';
 import 'package:traver/src/features/auth/views/onboarding.dart';
 import 'package:traver/src/features/auth/views/register.dart';
 import 'package:traver/src/features/home/screens/basepage.dart';
-import 'package:traver/src/features/home/screens/home_page.dart';
-import 'package:traver/src/features/profile/controller/profile_controller.dart';
 import 'package:traver/src/utils/bindings/app_binding.dart';
 import 'package:traver/src/utils/theme/app_theme.dart';
 
@@ -28,10 +27,15 @@ void main() async{
   runApp(const MyApp());
 }
 
+
+
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
+ 
   @override
   Widget build(BuildContext context) {
     Brightness statusBarIconBrightness =

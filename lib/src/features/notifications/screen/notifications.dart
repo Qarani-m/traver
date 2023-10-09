@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
+import 'package:traver/src/features/notifications/controller/notification_controller.dart';
 
 class Notifications extends StatelessWidget {
-  const Notifications({super.key});
+   Notifications({super.key});
+  //  NotificationsController notificationsController = Get.find<NotificationsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,9 @@ class Notifications extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              OneNotification(textTheme: textTheme),
+              GestureDetector(
+                // onTap: ()=> notificationsController.fcm(),
+                child: OneNotification(textTheme: textTheme)),
               OneNotification(textTheme: textTheme),
               OneNotification(textTheme: textTheme),
               OneNotification(textTheme: textTheme)

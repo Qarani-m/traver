@@ -47,7 +47,6 @@ dependencies:
   otp_text_field:
   lottie:
   cloud_firestore:
-  twilio_flutter:
   firebase_messaging:
   loading_animation_widget:
   google_sign_in:
@@ -61,9 +60,9 @@ dependencies:
   firebase_storage:
   url_launcher: ^6.1.14
   intl:
-  async: ^2.11.0
-  tuple:
-  rxdart:
+  flutter_local_notifications: ^16.1.0
+  cached_network_image:
+  shimmer: ^3.0.0
   
 flutter_launcher_icons:
   android: "launcher_icon"
