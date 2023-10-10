@@ -15,7 +15,9 @@ class OnboardingController extends GetxController {
 
   void getStartedButton() async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("isFirstTimer", true);
+    prefs.setBool("isFirstTimer", false);
+
+
     Get.offNamed(
       "/login"
     );

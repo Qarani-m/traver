@@ -65,7 +65,8 @@ class AuthController extends GetxController {
       "imageUrl": "",
       "location": "",
       "idNumber": "",
-      "intresets": []
+      "intresets": [],
+      "isVerified":false
     }).then((value) => print("User Added"));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -75,7 +76,8 @@ class AuthController extends GetxController {
     prefs.setString("idNumber", "");
     prefs.setString("location", "");
     prefs.setString("imageUrl", "");
-    prefs.setStringList("intrest", ([]) as List<String>);
+    prefs.setStringList("intrest",[]);
+    prefs.setBool("isVerified", false);
 
     Get.offAllNamed("/registerSucces");
   }

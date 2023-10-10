@@ -17,6 +17,7 @@ class SignUpController extends GetxController {
   var password = "";
   RxBool isAuth = false.obs;
   RxBool showresetConfirmationEmail = false.obs;
+  bool addToEmailList = true;
 
   void inputEmail() {
     name = "${firstNameController.text} ${lastNameController.text}";
@@ -26,7 +27,6 @@ class SignUpController extends GetxController {
   void createPassword() {
     phone = phoneController.text;
     email = emailController.text;
-    // email  = "emqarani${Random().nextDouble()}@gmail.com";
     Get.toNamed("/registerPassword");
   }
 
@@ -35,11 +35,15 @@ class SignUpController extends GetxController {
     isAuth.value = true;
     await authController.createUser(name, email, phone, password);
     isAuth.value = false;
-    // await authController.phoneNumberSignin();
   }
 
-  void registerAction(int pin) {
+  Future<void> registerAction(int pin) async{
     password = passwordController.text;
+    isAuth.value = true;
+
+    await authController.createUser(name, email, phone, password);
+    isAuth.value = false;
+
   }
 
   Future<void> forgotPassword() async {

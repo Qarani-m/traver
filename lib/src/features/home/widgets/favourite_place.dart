@@ -19,7 +19,7 @@ HomePageController homePageController = Get.find<HomePageController>();
     var brightness = MediaQuery.of(context).platformBrightness;
 
     return GestureDetector(
-      onTap: () => Get.to(AboutPlace()),
+      onTap: () => Get.to(const AboutPlace()),
       child: SizedBox(
         height: 260.h,
         child: ListView.builder(
@@ -58,7 +58,7 @@ HomePageController homePageController = Get.find<HomePageController>();
                       ), // Placeholder for loading
                       errorWidget: (context, url, error) => Padding(
                         padding: EdgeInsets.only(left: 185.w / 2 - 20),
-                        child: Center(child: Icon(Icons.error)),
+                        child: const Center(child: Icon(Icons.error)),
                       ), // Placeholder for errors
                     ),
                     Container(
@@ -86,10 +86,8 @@ HomePageController homePageController = Get.find<HomePageController>();
                                     backgroundColor: brightness == Brightness.dark
                                         ? AppColors.darkColor
                                         : Colors.white,
-                                    child: Icon(
-                                        homePageController.likedDestinations.contains(index)?Icons.favorite:Icons.favorite_outline,
-                                        color: AppColors.likeColor,
-                                      ),
+                                    child:Icon(Icons.favorite_outline,
+                                        color: AppColors.likeColor,),
                                     ),
                               ),
                             ),

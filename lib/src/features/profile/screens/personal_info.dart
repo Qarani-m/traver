@@ -93,6 +93,7 @@ class PersonalInfo extends StatelessWidget {
                   height: 30.h,
                 ),
                 TextFielAuth(
+                  massiveSpace:false,
                   readonly: true,
                   obscureText: false,
                   controller: profileController.namecontroller,
@@ -103,6 +104,8 @@ class PersonalInfo extends StatelessWidget {
                   height: 15.h,
                 ),
                 TextFielAuth(
+                  massiveSpace:false,
+
                   numberKeyboard: true,
                   obscureText: false,
                   controller: profileController.phonecontroller,
@@ -113,6 +116,8 @@ class PersonalInfo extends StatelessWidget {
                   height: 15.h,
                 ),
                 TextFielAuth(
+                  massiveSpace:false,
+
                   obscureText: false,
                   readonly: true,
                   controller: profileController.emailcontroller,
@@ -123,6 +128,8 @@ class PersonalInfo extends StatelessWidget {
                   height: 15.h,
                 ),
                 TextFielAuth(
+                  massiveSpace:false,
+
                   numberKeyboard: true,
                   obscureText: false,
                   controller: profileController.idNumbercontroller,
@@ -133,6 +140,8 @@ class PersonalInfo extends StatelessWidget {
                   height: 15.h,
                 ),
                 TextFielAuth(
+                  massiveSpace:false,
+
                   obscureText: false,
                   controller: profileController.locationController,
                   label: "City",

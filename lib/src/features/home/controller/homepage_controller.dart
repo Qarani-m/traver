@@ -23,7 +23,7 @@ class HomePageController extends GetxController with HomePageMixin {
     phone.value = prefs.getString("phone") ?? "";
     intrests.value = prefs.getStringList("intrests") ?? ["Empty"];
     likedDestinations.value =
-        prefs.getStringList("likedDestinations") ?? ["Empty"];
+        prefs.getStringList("likedDestinations") ?? [];
   }
 
   @override
@@ -35,26 +35,28 @@ class HomePageController extends GetxController with HomePageMixin {
 
 mixin HomePageMixin on GetxController {
   RxBool isLiked = false.obs;
-  RxList likedDestinations = [].obs;
+RxList<dynamic> likedDestinations = <String>[].obs;
 
-  Future<void> toggleLike(String id) async {
-  print("original======== "+likedDestinations.toString());
+Future<void> toggleLike(String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  List<String> existingList = prefs.getStringList('likedDestinations') ?? [];
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> existingList = prefs.getStringList('likedDestinations') ?? [];
-    if (existingList.contains(id)) {
-      existingList.remove(id);
-      await prefs.setStringList('likedDestinations', existingList);
-      likedDestinations.add(id);
-      print(likedDestinations);
-      // add liked to firebase
-    } else {
-      existingList.add(id);
-      await prefs.setStringList('likedDestinations', existingList);
-      likedDestinations.remove(id);
-      print(likedDestinations);
+  if (existingList.contains(id)) {
+    existingList.remove(id);
+    await prefs.setStringList('likedDestinations', existingList);
+    likedDestinations.remove(id); // Remove the ID from the likedDestinations list
+    print(likedDestinations);
+    isLiked.value = true;
+    // You may also want to update isLiked accordingly here.
+  } else {
+    existingList.add(id);
+    await prefs.setStringList('likedDestinations', existingList);
+    likedDestinations.add(id); // Add the ID to the likedDestinations list
+    print(likedDestinations);
+    isLiked.value = false;
 
-      // add liked to firebase
-    }
+    // You may also want to update isLiked accordingly here.
   }
+}
+
 }

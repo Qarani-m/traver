@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/features/auth/controllers/login_controller.dart';
 
@@ -13,7 +12,9 @@ class TextFielAuth extends StatelessWidget {
     required this.label,
     required this.hint,
     this.readonly=false,
-    this.numberKeyboard = false
+    this.numberKeyboard = false,
+    this.massiveSpace=true,
+
   });
 
   final TextEditingController controller;
@@ -22,13 +23,15 @@ class TextFielAuth extends StatelessWidget {
   final String hint;
   final bool readonly;
   final bool numberKeyboard;
+  final bool massiveSpace;
+
 
   @override
   Widget build(BuildContext context) {
     LoginController loginController = Get.put(LoginController());
-    return SizedBox(
+    return Container(
       // color: Colors.red,
-      height: 55.h,
+      height: massiveSpace? 75.h:55.h,
       child: Obx(
         () => TextFormField(
           keyboardType: numberKeyboard?TextInputType.number:TextInputType.text,
@@ -119,7 +122,9 @@ class TextFielAuth extends StatelessWidget {
 
 class InputValidation {
   static bool isValidName(String name) {
-    return name.length >= 3 && RegExp(r'^[a-zA-Z]+$').hasMatch(name.trim());
+    bool nameValidate = name.length >= 3 && RegExp(r'^[a-zA-Z ]+$').hasMatch(name.trim());
+    print(name.trim());
+    return nameValidate;
   }
 
   static bool isValidEmail(String email) {

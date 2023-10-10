@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/constants/app_strings.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
@@ -32,7 +31,7 @@ class RegisterName extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GobackBtn(),
+              const GobackBtn(),
               SizedBox(
                 height: 80.h,
               ),
@@ -125,7 +124,7 @@ class RegisterEmail extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GobackBtn(),
+              const GobackBtn(),
               SizedBox(
                 height: 80.h,
               ),
@@ -144,9 +143,7 @@ class RegisterEmail extends StatelessWidget {
                         obscureText: false,
                         label: "Email",
                         hint: ""),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+               
                     TextFielAuth(
                       numberKeyboard: true,
                         controller: signUpController.phoneController,
@@ -164,11 +161,9 @@ class RegisterEmail extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 290.w,
-                    // color: Colors.red,
                     child: Text(
                       AppStrings.marketingEmails,
                       style: GoogleFonts.urbanist(
-                          // color: AppColors.fadedTextColor,
                           fontSize: 14.sp),
                     ),
                   ),
@@ -176,8 +171,7 @@ class RegisterEmail extends StatelessWidget {
                       activeColor: AppColors.secondaryColor,
                       side: BorderSide(color: AppColors.darkColor),
                       value: true,
-                      onChanged: (val) {})
-                  // Radio(value: true, groupValue: true, onChanged: (val){})
+                      onChanged: (val) {signUpController.addToEmailList=val??true;})
                 ],
               ),
               SizedBox(
@@ -260,7 +254,7 @@ class RegisterPassword extends StatelessWidget {
                       signUpController.otpScreen();
                     }
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               Obx(
@@ -316,7 +310,7 @@ class RegisterVerification extends StatelessWidget {
                   length: 5,
                   width: MediaQuery.of(context).size.width,
                   fieldWidth: 50,
-                  style: TextStyle(fontSize: 17),
+                  style: const TextStyle(fontSize: 17),
                   textFieldAlignment: MainAxisAlignment.spaceAround,
                   fieldStyle: FieldStyle.underline,
                   onCompleted: (pin) {
