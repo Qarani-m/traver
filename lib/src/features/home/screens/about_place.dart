@@ -12,7 +12,18 @@ import 'package:traver/src/features/home/widgets/review.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
 class AboutPlace extends StatelessWidget {
-  const AboutPlace({super.key});
+   AboutPlace({super.key});
+
+    late GoogleMapController mapController;
+
+
+ void _onMapCreated(GoogleMapController controller) {
+      mapController = controller;
+    }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +42,7 @@ class AboutPlace extends StatelessWidget {
     ];
     const String inputData =
         "When using custom values we have specified the to be our targe have specified the to be our targe have specified the to be our targe have specified the to be our targe have specified the to be our target text for highlighting  with purple italic font. We know that the website is a very useful website. (rti..notNow should not be parsed) But Instagram is more fun to use. We should not forget the contribution of wikipedia played in the growth of web. If you like this package do consider liking it so that it could be useful to more developers like you. Thank you for your time";
-    late GoogleMapController mapController;
-    void _onMapCreated(GoogleMapController controller) {
-      mapController = controller;
-    }
-
+   
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,27 +79,22 @@ class AboutPlace extends StatelessWidget {
                               image: AssetImage(AppImageStrings.onboarding[2]),
                               fit: BoxFit.cover)),
                       child: Container(
-                        height: 210.h,
-                        width: 390.w,
-                        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                AppColors.darkColor.withOpacity(0.5),
-                                Colors.transparent
-                              ]),
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: 
-
-
-
-
-
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          height: 210.h,
+                          width: 390.w,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 15.h),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  AppColors.darkColor.withOpacity(0.5),
+                                  Colors.transparent
+                                ]),
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
@@ -103,17 +105,16 @@ class AboutPlace extends StatelessWidget {
                                           .bodyMedium
                                           ?.copyWith(color: Colors.white)),
                                 ),
-                                 Padding(
+                                Padding(
                                   padding: EdgeInsets.only(left: 5.h),
-
-                                   child: Text(
-                                        "100+ people have reviewed",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(color: Colors.white),
-                                      ),
-                                 ),
+                                  child: Text(
+                                    "100+ people have reviewed",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ),
                                 SizedBox(
                                   height: 5.h,
                                 ),
@@ -176,76 +177,7 @@ class AboutPlace extends StatelessWidget {
                                     ],
                                   ),
                                 )
-                              ])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      ),
+                              ])),
                     ),
                     SizedBox(
                       height: 30.h,
@@ -452,7 +384,9 @@ class AboutPlace extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () {Get.to(const Bookingdetails());},
+                  onTap: () {
+                    Get.to(const Bookingdetails());
+                  },
                   child: Container(
                     alignment: Alignment.center,
                     height: 50.h,

@@ -10,25 +10,26 @@ import 'package:traver/src/features/home/models/destination_model.dart';
 import 'package:traver/src/features/home/screens/about_place.dart';
 
 class FavouritePlace extends StatelessWidget {
-  FavouritePlace({super.key, required this.destinationModel});
+  FavouritePlace({
+    super.key,
+    required this.destinationModel,
+  });
   final DestinationModel destinationModel;
 
-HomePageController homePageController = Get.find<HomePageController>();
+  HomePageController homePageController = Get.find<HomePageController>();
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
 
     return GestureDetector(
-      onTap: () => Get.to(const AboutPlace()),
+      onTap: () =>
+          homePageController.placeDetails(destinationModel.destinationId!),
       child: SizedBox(
-        height: 260.h,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            return Row(
-              children: [
-                Stack(
+          height: 260.h,
+          child: Row(
+            children: [
+              Obx(
+                () => Stack(
                   children: [
                     CachedNetworkImage(
                       imageUrl: destinationModel
@@ -46,7 +47,7 @@ HomePageController homePageController = Get.find<HomePageController>();
                         ),
                       ),
                       placeholder: (context, url) => Padding(
-                        padding: EdgeInsets.only(left: 185.w / 2 ),
+                        padding: EdgeInsets.only(left: 185.w / 2),
                         child: Center(
                             child: SizedBox(
                           height: 50.h,
@@ -75,114 +76,139 @@ HomePageController homePageController = Get.find<HomePageController>();
                                 AppColors.darkColor.withOpacity(0.5),
                                 Colors.transparent
                               ])),
-                      child: Obx(()=> Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: GestureDetector(
-                                onTap: ()=>homePageController.toggleLike(index.toString()),
-                                child: CircleAvatar(
-                                    backgroundColor: brightness == Brightness.dark
-                                        ? AppColors.darkColor
-                                        : Colors.white,
-                                    child:Icon(Icons.favorite_outline,
-                                        color: AppColors.likeColor,),
-                                    ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () => homePageController.toggleLike(
+                                  destinationModel.destinationId.toString()),
+                              child: CircleAvatar(
+                                backgroundColor: brightness == Brightness.dark
+                                    ? AppColors.darkColor
+                                    : Colors.white,
+                                child: homePageController.likedDestinations
+                                        .contains(destinationModel.destinationId
+                                            .toString())
+                                    ? Icon(
+                                        Icons.favorite,
+                                        color: AppColors.likeColor,
+                                      )
+                                    : Icon(
+                                        Icons.favorite_outline,
+                                        color: AppColors.likeColor,
+                                      ),
                               ),
                             ),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 5.h),
-                                    child: Text(destinationModel.name!,
+                          ),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5.h),
+                                  child: Text(destinationModel.name!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(color: Colors.white)),
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconTheme(
+                                        data: Theme.of(context).iconTheme,
+                                        child: const Icon(
+                                            Icons.location_on_outlined)),
+                                    Text(
+                                      "${destinationModel.location!.split(" ")[0]}, ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                    SizedBox(
+                                      width: 5.h,
+                                    ),
+                                    Text(
+                                        destinationModel.location!
+                                            .split(" ")[1],
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(color: Colors.white)),
-                                  ),
-                                  SizedBox(
-                                    height: 15.h,
-                                  ),
-                                  Row(
+                                            .bodySmall
+                                            ?.copyWith(color: Colors.white))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 4.h),
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      IconTheme(
-                                          data: Theme.of(context).iconTheme,
-                                          child: const Icon(
-                                              Icons.location_on_outlined)),
+                                      Stack(
+                                        children: [
+                                          RatingBar.builder(
+                                            allowHalfRating: true,
+                                            unratedColor:
+                                                AppColors.fadedTextColor,
+                                            initialRating: 4.3,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            itemCount: 5,
+                                            itemBuilder: (context, _) =>
+                                                const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemSize: 15.h,
+                                            onRatingUpdate: (rating) {},
+                                          ),
+                                          Positioned(
+                                              top: 0.h,
+                                              left: 0.h,
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                height: 20.h,
+                                                width: 70.w,
+                                              ))
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
                                       Text(
-                                        "${destinationModel.location!.split(" ")[0]}, ${homePageController.likedDestinations}",
+                                        destinationModel.starCount!,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall
                                             ?.copyWith(color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        width: 5.h,
-                                      ),
-                                      Text(
-                                          destinationModel.location!
-                                              .split(" ")[1],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(color: Colors.white))
+                                      )
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 4.h),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        RatingBar.builder(
-                                          unratedColor: Colors.white,
-                                          initialRating: double.parse(
-                                              destinationModel.starCount!),
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemBuilder: (context, _) => const Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          itemSize: 20.h,
-                                          onRatingUpdate: (rating) {},
-                                        ),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        Text(
-                                          destinationModel.starCount!,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith(color: Colors.white),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ])
-                          ],
-                        ),
+                                )
+                              ])
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 60.h,
-                  width: 15.w,
-                )
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+              SizedBox(
+                height: 60.h,
+                width: 15.w,
+              )
+            ],
+          )
+          // ;
+          //   },
+          // ),
+
+          ),
     );
   }
 }

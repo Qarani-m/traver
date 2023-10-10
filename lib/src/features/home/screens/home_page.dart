@@ -15,6 +15,7 @@ import 'package:traver/src/features/home/widgets/favourite_place.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
 import 'package:traver/src/features/home/widgets/right_left.dart';
 import 'package:traver/src/features/profile/controller/profile_controller.dart';
+
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
@@ -62,49 +63,57 @@ class HomePage extends StatelessWidget {
                                 .startsWith("https")
                             ? ClipOval(
                                 child: CachedNetworkImage(
-                                imageUrl:
-                                    profileController.profilePicImageUrl.value,
-                                placeholder: (context, url) =>Container(
-                                  height: 40.h,
-                                  width: 40.h,
-                                  decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.fadedTextColor.withOpacity(0.1)),
-                                  child: Center(
-                                child: profileController.prefsList.isNotEmpty
-                                    ? Text(
-                                        "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                      )
-                                    : Container()),
-                                ),
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  height: 40.h,
-                                  width: 40.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) =>Container(
-                                  height: 40.h,
-                                  width: 40.h,
-                                  decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.fadedTextColor.withOpacity(0.1)),
-                                  child: Center(
-                                child: profileController.prefsList.isNotEmpty
-                                    ? Text(
-                                        "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                      )
-                                    : Container()),
-                                )
-                              ))
+                                    imageUrl: profileController
+                                        .profilePicImageUrl.value,
+                                    placeholder: (context, url) => Container(
+                                          height: 40.h,
+                                          width: 40.h,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.fadedTextColor
+                                                  .withOpacity(0.1)),
+                                          child: Center(
+                                              child: profileController
+                                                      .prefsList.isNotEmpty
+                                                  ? Text(
+                                                      "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge,
+                                                    )
+                                                  : Container()),
+                                        ),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                          height: 40.h,
+                                          width: 40.h,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                          height: 40.h,
+                                          width: 40.h,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.fadedTextColor
+                                                  .withOpacity(0.1)),
+                                          child: Center(
+                                              child: profileController
+                                                      .prefsList.isNotEmpty
+                                                  ? Text(
+                                                      "${profileController.prefsList[0].split(" ")[0][0]}.${profileController.prefsList[0].split(" ")[1][0]}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge,
+                                                    )
+                                                  : Container()),
+                                        )))
                             : Center(
                                 child: profileController.prefsList.isNotEmpty
                                     ? Text(
@@ -245,13 +254,22 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              FavouritePlace(destinationModel: DestinationModel(
-                destinationId: "12",
-                imageUrl: "https://firebasestorage.googleapis.com/v0/b/traver-79d4b.appspot.com/o/destinations%2Fpexels-photo-5372613.jpeg?alt=media&token=65c42c57-6705-4ed2-92a4-5f087c010630&_gl=1*gthss5*_ga*OTU2MDYyODE5LjE2OTYzNTE3MTQ.*_ga_CW55HF8NVT*MTY5Njg0MzI2MC4yMy4xLjE2OTY4NDM0ODAuMzcuMC4w"
-                ,starCount: "3.8",
-                location: "Bali Indonesia",
-                name: "Kuta beach"
-              ),),
+              SizedBox(
+                  height: 260.h,
+                  child: ListView.builder(
+                    itemCount: 4,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return FavouritePlace(
+                          destinationModel: DestinationModel(
+                              destinationId: "${index}kli",
+                              imageUrl:
+                                  "https://firebasestorage.googleapis.com/v0/b/traver-79d4b.appspot.com/o/destinations%2Fpexels-photo-5372613.jpeg?alt=media&token=65c42c57-6705-4ed2-92a4-5f087c010630&_gl=1*gthss5*_ga*OTU2MDYyODE5LjE2OTYzNTE3MTQ.*_ga_CW55HF8NVT*MTY5Njg0MzI2MC4yMy4xLjE2OTY4NDM0ODAuMzcuMC4w",
+                              starCount: "3.8",
+                              location: "Bali Indonesia",
+                              name: "Kuta beach"));
+                    },
+                  )),
               SizedBox(
                 height: 20.h,
               ),
@@ -260,7 +278,20 @@ class HomePage extends StatelessWidget {
                 height: 20.h,
               ),
               Column(
-                children: List.generate(5, (index) => PopularPackage()),
+                children: List.generate(
+                    5,
+                    (index) => PopularPackage(
+                        destinationModel: DestinationModel(
+                            destinationId: "${index}ilk",
+                            imageUrl:
+                                "https://firebasestorage.googleapis.com/v0/b/traver-79d4b.appspot.com/o/destinations%2Fpexels-photo-5372613.jpeg?alt=media&token=65c42c57-6705-4ed2-92a4-5f087c010630&_gl=1*gthss5*_ga*OTU2MDYyODE5LjE2OTYzNTE3MTQ.*_ga_CW55HF8NVT*MTY5Njg0MzI2MC4yMy4xLjE2OTY4NDM0ODAuMzcuMC4w",
+                            starCount: "3.8",
+                            location: "Bali Indonesia",
+                            name: "Kuta beach",
+                            price: "21908",
+                            mantra: "A resort is a place used for relaxation, vacation and as a destination for all that are willing"
+                            
+                            ))),
               )
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
+import 'package:traver/src/features/home/models/destination_model.dart';
 import 'package:traver/src/features/home/widgets/popular_packages.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
@@ -102,7 +103,15 @@ class Search extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            PopularPackage()
+            PopularPackage(
+               destinationModel: DestinationModel(
+                              destinationId: "${18}",
+                              imageUrl:
+                                  "https://firebasestorage.googleapis.com/v0/b/traver-79d4b.appspot.com/o/destinations%2Fpexels-photo-5372613.jpeg?alt=media&token=65c42c57-6705-4ed2-92a4-5f087c010630&_gl=1*gthss5*_ga*OTU2MDYyODE5LjE2OTYzNTE3MTQ.*_ga_CW55HF8NVT*MTY5Njg0MzI2MC4yMy4xLjE2OTY4NDM0ODAuMzcuMC4w",
+                              starCount: "3.8",
+                              location: "Bali Indonesia",
+                              name: "Kuta beach")
+            )
           ],
         ),
       ),

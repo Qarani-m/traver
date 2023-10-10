@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/features/home/screens/home_page.dart';
@@ -26,6 +28,15 @@ class HomePageController extends GetxController with HomePageMixin {
         prefs.getStringList("likedDestinations") ?? [];
   }
 
+  void placeDetails(String placeId){
+    
+  }
+
+
+
+
+
+
   @override
   void dispose() {
     Get.delete<HomePageController>(); // Dispose of the controller
@@ -34,29 +45,21 @@ class HomePageController extends GetxController with HomePageMixin {
 }
 
 mixin HomePageMixin on GetxController {
-  RxBool isLiked = false.obs;
 RxList<dynamic> likedDestinations = <String>[].obs;
 
 Future<void> toggleLike(String id) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   List<String> existingList = prefs.getStringList('likedDestinations') ?? [];
-
   if (existingList.contains(id)) {
     existingList.remove(id);
     await prefs.setStringList('likedDestinations', existingList);
-    likedDestinations.remove(id); // Remove the ID from the likedDestinations list
-    print(likedDestinations);
-    isLiked.value = true;
-    // You may also want to update isLiked accordingly here.
+    likedDestinations.remove(id); 
   } else {
     existingList.add(id);
     await prefs.setStringList('likedDestinations', existingList);
-    likedDestinations.add(id); // Add the ID to the likedDestinations list
-    print(likedDestinations);
-    isLiked.value = false;
-
-    // You may also want to update isLiked accordingly here.
+    likedDestinations.add(id);
   }
 }
+
 
 }
