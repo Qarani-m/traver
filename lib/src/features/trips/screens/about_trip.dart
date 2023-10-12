@@ -8,6 +8,7 @@ import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/booking/screens/booking_details.dart';
+import 'package:traver/src/features/home/models/review_model.dart';
 import 'package:traver/src/features/home/widgets/review.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
@@ -417,10 +418,16 @@ class AboutTrip extends StatelessWidget {
                     SizedBox(
                       height: 20.h,
                     ),
-                    Review(),
-                    Review(),
-                    Review(),
-                    Review(),
+                    Review(
+                         reviewModel: ReviewModel(
+                                    name:"Some name",
+                                    imageUrl: "",
+                                    date: "date"
+                                    ,starCount: "2",
+                                    review:"Some review"
+
+                                  ),
+                    ),
                   ],
                 ),
               ),

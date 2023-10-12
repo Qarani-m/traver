@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class DestinationModel {
   String? destinationId;
   String? imageUrl;
@@ -6,6 +8,10 @@ class DestinationModel {
   String? name;
   String? price;
   String? mantra;
+  List<Map<String, IconData>>? whatsIncluded;
+  String? about;
+  List<String>? gallery;
+  List<double>? cordinates;
   // String? price;
   // String? price;
   // String? price;
@@ -19,6 +25,11 @@ class DestinationModel {
     this.name,
     this.price,
     this.mantra,
+    this.whatsIncluded,
+    this.about,
+    this.gallery,
+    this.cordinates,
+    // this.price,
     // this.price,
     // this.price,
   });
@@ -33,6 +44,10 @@ class DestinationModel {
       name: json['name'] as String?,
       price: json['price'] as String?,
       mantra: json['price'] as String?,
+      whatsIncluded: json['whatsIncluded'] as List<Map<String,IconData>>?,
+      about: json['about'] as String?,
+      gallery: json['gallery'] as List<String>?,
+      cordinates: json['cordinates'] as List<double>?,
       // price: json['price'] as String?,
       // price: json['price'] as String?,
       // price: json['price'] as String?,
@@ -49,7 +64,10 @@ class DestinationModel {
     data['name'] = name;
     data['price'] = price;
     data['mantra'] = mantra;
-    // data['mantra'] = mantra;
+    data['whatsIncluded'] = whatsIncluded;
+    data['about'] = about;
+    data['gallery'] = gallery;
+    data['cordinates'] = cordinates;
     // data['mantra'] = mantra;
     // data['mantra'] = mantra;
     return data;

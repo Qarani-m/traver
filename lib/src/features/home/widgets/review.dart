@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
+import 'package:traver/src/features/home/models/review_model.dart';
 
 class Review extends StatelessWidget {
-  const Review({
+  Review({
+    required this.reviewModel,
     super.key,
   });
+
+  final ReviewModel reviewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +46,13 @@ class Review extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Kuta Resort",
+                        reviewModel.name!,
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                            ?.copyWith(fontWeight: FontWeight.w500, fontSize: 15.sp),
                       ),
-                      Text("Today", style: textTheme.bodySmall)
+                      Text(reviewModel.date!, style: textTheme.bodySmall)
                     ]),
               ),
               SizedBox(
@@ -56,7 +60,7 @@ class Review extends StatelessWidget {
               ),
               Row(
                 children: List.generate(
-                    3,
+                    int.parse(reviewModel.starCount!),
                     (index) => Icon(
                           Icons.star,
                           color: AppColors.secondaryColor,
@@ -69,7 +73,7 @@ class Review extends StatelessWidget {
               SizedBox(
                 width: 260.w,
                 child: Text(
-                  "Pretty nice, the entrance is quite far from the parking lot but would be much of a problem if it wasnt raining, love the interiror",
+                  reviewModel.review!,
                   style: textTheme.bodySmall?.copyWith(height: 1.7),
                 ),
               ),

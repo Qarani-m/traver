@@ -6,6 +6,7 @@ import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/auth/widgets/text_field.dart';
 import 'package:traver/src/features/booking/screens/payment_method.dart';
 import 'package:traver/src/features/booking/widgets/payment_next.dart';
+import 'package:traver/src/features/home/controller/homepage_controller.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
 class Bookingdetails extends StatelessWidget {
@@ -13,8 +14,7 @@ class Bookingdetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-    controller.text = "Martin Karani";
+    HomePageController homePageController = Get.find<HomePageController>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -27,7 +27,7 @@ class Bookingdetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const TopBar(
+               const TopBar(
                 text: "Booking Details",
               ),
               Column(
@@ -37,8 +37,9 @@ class Bookingdetails extends StatelessWidget {
                     height: 30.h,
                   ),
                   TextFielAuth(
+
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.personResponsibleControlller,
                     label: "Person Responsible",
                     hint: "",
                   ),
@@ -47,7 +48,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller:homePageController.phoneNumberController ,
                     label: "Phone Number",
                     hint: "",
                   ),
@@ -56,7 +57,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.emailController,
                     label: "Email Address",
                     hint: "",
                   ),
@@ -65,7 +66,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.datesController,
                     label: "Booked dates",
                     hint: "",
                   ),
@@ -74,7 +75,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.idNumberController,
                     label: "ID number",
                     hint: "",
                   ),
@@ -83,7 +84,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.numberOfMembersController,
                     label: "Number of Members",
                     hint: "",
                   ),
@@ -92,7 +93,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.numberOfChildrenController,
                     label: "Number of children",
                     hint: "",
                   ),
@@ -108,7 +109,7 @@ class Bookingdetails extends StatelessWidget {
                   ),
                   TextFielAuth(
                     obscureText: false,
-                    controller: controller,
+                    controller: homePageController.pwdController,
                     label: "PWD",
                     hint: "",
                   ),
@@ -117,6 +118,7 @@ class Bookingdetails extends StatelessWidget {
               SizedBox(
                 height: 70.h,
               ),
+              
              const PaymentNext(nextPage: PaymentMethod(),)
             ],
           ),
