@@ -49,6 +49,24 @@ class HomePageController extends GetxController with HomePageMixin {
     Icons.directions_bus_outlined
   ];
 
+ IconData? whatsIncludedIcons(String include) {
+  List<Map<String, IconData>> allIncludes = [
+    {"flight": Icons.flight_outlined},
+    {"business": Icons.business},
+    // Add more items as needed
+  ];
+
+  for (final item in allIncludes) {
+    if (item.containsKey(include)) {
+      return item[include]!;
+    }
+  }
+
+  return null;
+}
+
+
+
   Future<DestinationModel> getPlaceDetails(String destinationId) async {
     try {
       final CollectionReference collectionReference =
@@ -59,35 +77,52 @@ class HomePageController extends GetxController with HomePageMixin {
       if (querySnapshot.docs.isNotEmpty) {
         Map<String, dynamic> data =
             querySnapshot.docs[0].data() as Map<String, dynamic>;
-            print(data['whatsIncluded'].runtimeType);
+        print(data['whatsIncluded'].runtimeType);
+
+        final List<dynamic> dynamicData = data['whatsIncluded'];
+
+        final List<Map<String, bool>> convertedData = dynamicData.map((item) {
+          final Map<String, dynamic> itemData = Map<String, dynamic>.from(item);
+
+          final Map<String, bool> boolData = {};
+
+          itemData.forEach((key, value) {
+            if (value is bool) {
+              boolData[key] = value;
+            }
+          });
+
+          return boolData;
+        }).toList();
+
         return DestinationModel(
-          destinationId: data['name'],
-          name: data['name'],
-          mantra:data['mantra'],
-          price: data['price'],
-          location: data['location'],
-          starCount: data['starCount'],
-          about: data['about'],
-          gallery: [
-            // App
-            AppImageStrings.onboarding[0],
-            AppImageStrings.onboarding[1],
-            AppImageStrings.onboarding[2],
-            AppImageStrings.onboarding[2],
-            AppImageStrings.onboarding[2],
-          ],
-          cordinates: [45.521563, -122.677433],
-          // whatsIncluded: data["whatsIncluded"]
-          whatsIncluded: [
-            {
-              "key1": Icons.flight_outlined,
-            },
-            {
-              "key2": Icons.business,
-            },
-            // {"key3": Icons.directions_bus_outlined},
-          ],
-        );
+            destinationId: data['name'],
+            name: data['name'],
+            mantra: data['mantra'],
+            price: data['price'],
+            location: data['location'],
+            starCount: data['starCount'],
+            about: data['about'],
+            gallery: [
+              // App
+              AppImageStrings.onboarding[0],
+              AppImageStrings.onboarding[1],
+              AppImageStrings.onboarding[2],
+              AppImageStrings.onboarding[2],
+              AppImageStrings.onboarding[2],
+            ],
+            cordinates: [45.521563, -122.677433],
+            whatsIncluded: convertedData
+            // whatsIncluded: [
+            //   {
+            //     "key1": Icons.flight_outlined,
+            //   },
+            //   {
+            //     "key2": Icons.business,
+            //   },
+            //   // {"key3": Icons.directions_bus_outlined},
+            // ],
+            );
       } else {
         print('Document with destinationId $destinationId not found.');
         return DestinationModel();

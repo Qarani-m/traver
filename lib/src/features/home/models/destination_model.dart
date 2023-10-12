@@ -8,7 +8,7 @@ class DestinationModel {
   String? name;
   String? price;
   String? mantra;
-  List<Map<String, IconData>>? whatsIncluded;
+  List<Map<String, bool>>? whatsIncluded;
   String? about;
   List<String>? gallery;
   List<double>? cordinates;
@@ -44,7 +44,7 @@ class DestinationModel {
       name: json['name'] as String?,
       price: json['price'] as String?,
       mantra: json['price'] as String?,
-      whatsIncluded: json['whatsIncluded'] as List<Map<String,IconData>>?,
+      whatsIncluded: json['whatsIncluded'] as List<Map<String,bool>>?,
       about: json['about'] as String?,
       gallery: json['gallery'] as List<String>?,
       cordinates: json['cordinates'] as List<double>?,

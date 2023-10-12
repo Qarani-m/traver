@@ -49,19 +49,24 @@ class AboutPlace extends StatelessWidget {
                 );
               } else {
                 final destinationData = snapShot.data;
-                // final List<dynamic> dynamicData =
-                //     destinationData!.whatsIncluded!;
+                final List<dynamic> dynamicData =
+                    destinationData!.whatsIncluded!;
 
-                // final List<Map<String, bool>> whatsIncluded =
-                //     dynamicData.map((item) {
-                //   // Here, we assume that each item in dynamicData is a Map<String, bool>
-                //   final Map<String, bool> itemData =
-                //       Map<String, bool>.from(item);
+                final List<Map<String, bool>> whatsIncluded =
+                    dynamicData.map((item) {
+                  // Here, we assume that each item in dynamicData is a Map<String, bool>
+                  final Map<String, bool> itemData =
+                      Map<String, bool>.from(item);
 
-                //   return {
-                //     itemData.keys.first: itemData.values.first,
-                //   };
-                // }).toList();
+                  return {
+                    itemData.keys.first: itemData.values.first,
+                  };
+                }).toList();
+
+
+
+
+
                 return
                     //     }
                     // })
@@ -239,14 +244,12 @@ class AboutPlace extends StatelessWidget {
                               SizedBox(
                                 height: 50.h,
                                 child: ListView.builder(
-                                  itemCount:
-                                      destinationData?.whatsIncluded?.length,
+                                  itemCount:whatsIncluded.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    final item =
-                                        destinationData?.whatsIncluded?[index];
-                                    final key = item?.keys.first;
+                                    final item =whatsIncluded[index];
+                                    final key = item.keys.first;
                                     // final icon = item?[key];
                                     return Row(
                                       children: [
@@ -271,7 +274,8 @@ class AboutPlace extends StatelessWidget {
                                               IconTheme(
                                                   data: iconTheme,
                                                   child: Icon(
-                                                    Icons.flight_outlined,
+                                                    homePageController.whatsIncludedIcons(key),
+                                                    // Icons.flight_outlined,
                                                     // icon,
                                                     // includedIcons[index],
                                                     color: AppColors
@@ -282,7 +286,7 @@ class AboutPlace extends StatelessWidget {
                                               ),
                                               Text(
                                                 // destinationDa
-                                                key!,
+                                                key,
                                                 style: textTheme.bodySmall,
                                               )
                                             ],
