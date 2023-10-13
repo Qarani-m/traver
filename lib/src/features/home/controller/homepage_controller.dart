@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/features/home/models/booking_model.dart';
 import 'package:traver/src/features/home/models/destination_model.dart';
 import 'package:traver/src/features/home/models/review_model.dart';
@@ -22,7 +19,7 @@ class HomePageController extends GetxController with HomePageMixin {
   RxList<String> intrests = <String>[].obs;
   RxInt currentPageIndex = 0.obs;
 
-  List pages = [HomePage(), const Trips(), const WishList(), Profile()];
+  List pages = [HomePage(),  Trips(), const WishList(), Profile()];
 
   @override
   void onInit() async {
@@ -54,7 +51,6 @@ class HomePageController extends GetxController with HomePageMixin {
     List<Map<String, IconData>> allIncludes = [
       {"flight": Icons.flight_outlined},
       {"business": Icons.business},
-      // Add more items as needed
     ];
 
     for (final item in allIncludes) {
@@ -126,34 +122,62 @@ class HomePageController extends GetxController with HomePageMixin {
   TextEditingController numberOfMembersController = TextEditingController();
   TextEditingController numberOfChildrenController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
-  void booking() {
+  Future<void> booking() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    personResponsibleControlller.text = prefs.getString("name") ?? "-";
+    phoneNumberController.text = prefs.getString("phone") ?? "-";
+    emailController.text = prefs.getString("email") ?? "-";
+    datesController.text = prefs.getString("email") ?? "-";
+    idNumberController.text = prefs.getString("idNumber") ?? "-";
+    numberOfMembersController.text = prefs.getString("email") ?? "-";
+    numberOfChildrenController.text = prefs.getString("email") ?? "-";
+    pwdController.text = prefs.getString("email") ?? "-";
+
     BookingModel();
   }
 
-RxString reviewCountHeader = "0".obs;
+  RxString reviewCountHeader = "0".obs;
 
-DateTime timestampToDateTime(Timestamp timestamp) {
-  return timestamp.toDate();
-}
+  String formatTimestamp(Timestamp timestamp) {
+    DateTime dateTime = timestamp.toDate();
+    DateTime now = DateTime.now();
+    DateTime yesterday = now.subtract(Duration(days: 1));
+
+    if (dateTime.year == now.year &&
+        dateTime.month == now.month &&
+        dateTime.day == now.day) {
+      return 'today';
+    } else if (dateTime.year == yesterday.year &&
+        dateTime.month == yesterday.month &&
+        dateTime.day == yesterday.day) {
+      return 'yesterday';
+    } else {
+      return '${dateTime.day}/${dateTime.month}/${dateTime.year % 100}';
+    }
+  }
 
   Future<List<ReviewModel>> getReviews(String id) async {
     try {
       final CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('reviews');
-      QuerySnapshot querySnapshot =
-          await collectionReference.where('destinationId', isEqualTo: "12").get();
+      QuerySnapshot querySnapshot = await collectionReference
+          .where('destinationId', isEqualTo: "12")
+          .get();
 
       List<ReviewModel> reviews = [];
 
       if (querySnapshot.docs.isNotEmpty) {
         for (QueryDocumentSnapshot document in querySnapshot.docs) {
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-  DateTime date = timestampToDateTime(data['date'] as Timestamp);
+          // DateTime date = timestampToDateTime(data['date'] as Timestamp);
+          // DateTime date = formatTimestamp(data['date'] as TimeStamp);
+          String formattedDate = formatTimestamp(data['date'] as Timestamp);
 
           ReviewModel review = ReviewModel(
             name: data['name'] ?? "Unknown",
             imageUrl: data['imageUrl'] ?? "DefaultImageUrl",
-            date: date.toString() ,
+            date: formattedDate.toString(),
             starCount: data['starCount'] ?? "0",
             review: data['review'] ?? "No review available",
           );

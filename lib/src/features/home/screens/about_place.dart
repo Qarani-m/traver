@@ -450,16 +450,20 @@ class AboutPlace extends StatelessWidget {
                                           .value = reviewData.length.toString();
                                       return Column(
                                         children: List.generate(
-                                          // 1,
+                                            // 1,
                                             reviewData.length,
                                             (index) => Review(
                                                   reviewModel: ReviewModel(
-                                                      name: reviewData[index]?.name,
-                                                      imageUrl: reviewData[index]
-                                                          ?.imageUrl,
-                                                      date: reviewData[index]?.date,
-                                                      starCount: reviewData[index]
-                                                          ?.starCount,
+                                                      name: reviewData[index]
+                                                          ?.name,
+                                                      imageUrl:
+                                                          reviewData[index]
+                                                              ?.imageUrl,
+                                                      date: reviewData[index]
+                                                          ?.date,
+                                                      starCount:
+                                                          reviewData[index]
+                                                              ?.starCount,
                                                       review: reviewData[index]
                                                           ?.review),
                                                 )),
@@ -499,7 +503,7 @@ class AboutPlace extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               Get.to(const Bookingdetails(), arguments: {
-                                "destinationId": destinationData?.destinationId
+                                "destinationId": destinationData.destinationId
                               });
                             },
                             child: Container(

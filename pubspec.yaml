@@ -28,53 +28,46 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: null
+  cloud_firestore: null
+  cupertino_icons: ^1.0.2
+  file_picker: ^5.5.0
+  firebase_auth: null
+  firebase_core: null
+  firebase_messaging: null
+  firebase_phone_auth_handler: ^1.0.8
+  firebase_storage: null
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  get:
-  flutter_screenutil:
-  flutter_launcher_icons:
-  google_fonts:
-  flutter_svg:
-  smooth_page_indicator:
-  shared_preferences:
-  firebase_core:
-  firebase_auth:
-  otp_text_field:
-  lottie:
-  cloud_firestore:
-  firebase_messaging:
-  loading_animation_widget:
-  google_sign_in:
-  firebase_phone_auth_handler: ^1.0.8
-  salomon_bottom_bar: ^3.3.2
-  flutter_rating_bar: ^4.0.1
-  parsed_readmore: ^0.0.6
-  google_maps_flutter: ^2.5.0
-  syncfusion_flutter_sliders: 
-  file_picker: ^5.5.0
-  firebase_storage:
-  url_launcher: ^6.1.14
-  intl:
+  flutter_launcher_icons: null
   flutter_local_notifications: ^16.1.0
-  cached_network_image:
+  flutter_rating_bar: ^4.0.1
+  flutter_screenutil: null
+  flutter_svg: null
+  get: null
+  google_fonts: null
+  google_maps_flutter: ^2.5.0
+  google_sign_in: null
+  intl: null
+  loading_animation_widget: null
+  lottie: null
+  mpesa_flutter_plugin: ^1.6.1
+  otp_text_field: null
+  parsed_readmore: ^0.0.6
+  salomon_bottom_bar: ^3.3.2
+  shared_preferences: null
   shimmer: ^3.0.0
-  
+  smooth_page_indicator: null
+  syncfusion_flutter_sliders: null
+  url_launcher: ^6.1.14
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/images/logo-dark.png"
   min_sdk_android: 21
 
-
-
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -82,10 +75,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -102,10 +96,8 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

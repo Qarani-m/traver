@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mpesa_flutter_plugin/initializer.dart';
 import 'package:traver/firebase_options.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/features/auth/controllers/auth_controller.dart';
@@ -18,7 +19,8 @@ import 'package:traver/src/utils/bindings/app_binding.dart';
 import 'package:traver/src/utils/theme/app_theme.dart';
 
 void main() async{
- 
+    MpesaFlutterPlugin.setConsumerKey("OTG10W9GVhXNUKhhXLANhImsIRoNgfDE");
+    MpesaFlutterPlugin.setConsumerSecret("9WGXOAcCYcJAuvDs");
   GoogleFonts.config.allowRuntimeFetching = false;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
@@ -9,6 +12,7 @@ import 'package:traver/src/features/booking/screens/booking_details.dart';
 import 'package:traver/src/features/booking/screens/succes_payment.dart';
 import 'package:traver/src/features/booking/widgets/payment_methos.dart';
 import 'package:traver/src/features/booking/widgets/payment_next.dart';
+import 'package:traver/src/features/home/models/booking_model.dart';
 import 'package:traver/src/features/home/widgets/topnavbar.dart';
 
 class PaymentMethod extends StatelessWidget {
@@ -135,12 +139,13 @@ class _CustomSizedAlertDialogState extends State<CustomSizedAlertDialog> {
                           side: MaterialStateProperty.all<BorderSide>(
                               BorderSide(
                                   width: 1.0,
-                                  color:AppColors.secondaryColor)), // Add a border
+                                  color: AppColors
+                                      .secondaryColor)), // Add a border
                         ),
                         onPressed: () {
                           Navigator.of(context).pop(); // Close the AlertDialog
                         },
-                        child:  Text('Close',style: textTheme.bodySmall),
+                        child: Text('Close', style: textTheme.bodySmall),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -150,10 +155,18 @@ class _CustomSizedAlertDialogState extends State<CustomSizedAlertDialog> {
                           setState(() {
                             paymentProcessing = true;
                           });
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await bookDestination(prefs.getString("email") ?? "", "12");
+                          await lipaNaMpesa();
+
                           await Future.delayed(Duration(seconds: 5));
                           Get.off(SuccessPayment());
                         },
-                        child:  Text('Confirm', style: textTheme.bodySmall,),
+                        child: Text(
+                          'Confirm',
+                          style: textTheme.bodySmall,
+                        ),
                       ),
                     ],
                   )
@@ -162,6 +175,64 @@ class _CustomSizedAlertDialogState extends State<CustomSizedAlertDialog> {
         ),
       ),
     );
+  }
+
+  Future<void> bookDestination(String userId, String destinationId) async {
+    try {
+      QuerySnapshot userQuerySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: userId)
+          .get();
+
+     if (userQuerySnapshot.docs.isNotEmpty) {
+  BookingModel bookingModel = BookingModel(
+    personResponsible: "Martin",
+    phoneNumber: "0704847676",
+    emailAddress: "Emqarani",
+    dates: "dates",
+    idNumber: "782399839",
+    numberOfChildren: "0",
+    numberOfMembers: "2",
+    pwdNumber: "0"
+  );
+
+  // Convert the BookingModel to a Map using the toJson method
+  Map<String, dynamic> bookingData = bookingModel.toJson();
+
+  // Update the Firestore document to add the new BookingModel to the "booked" array
+  await userQuerySnapshot.docs.first.reference.update({
+    'booked': FieldValue.arrayUnion([bookingData])
+  });
+}
+    } catch (e) {
+      print('Error booking destination: $e');
+    }
+  }
+
+  Future<void> lipaNaMpesa() async {
+    dynamic transactionInitialisation;
+    try {
+      transactionInitialisation = await MpesaFlutterPlugin.initializeMpesaSTKPush(
+          businessShortCode: "174379",
+          transactionType: TransactionType.CustomerPayBillOnline,
+          amount: 1.0,
+          partyA: "254768785886",
+          partyB: "174379",
+          callBackURL: Uri(
+              scheme: "https",
+              host: "mpesa-requestbin.herokuapp.com",
+              path: "/1hhy6391"),
+          accountReference: "Traver tours",
+          phoneNumber: "254768785886",
+          baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
+          transactionDesc: "purchase",
+          passKey:
+              "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919");
+      print("TRANSACTION RESULT: " + transactionInitialisation.toString());
+      return transactionInitialisation;
+    } catch (e) {
+      print("CAUGHT EXCEPTION: " + e.toString());
+    }
   }
 }
 
@@ -205,7 +276,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the AlertDialog
               },
-              child:  Text('Close',style: textTheme.bodySmall),
+              child: Text('Close', style: textTheme.bodySmall),
             ),
           ],
         ),

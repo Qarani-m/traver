@@ -7,6 +7,9 @@ class BookingModel {
   String? numberOfMembers;
   String? numberOfChildren;
   String? pwdNumber;
+  String? destinationId;
+  String? name;
+  String? price;
 
   BookingModel(
       {this.personResponsible,
@@ -16,6 +19,9 @@ class BookingModel {
       this.idNumber,
       this.numberOfChildren,
       this.numberOfMembers,
+      this.destinationId,
+      this.name,
+      this.price,
       this.pwdNumber});
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +34,9 @@ class BookingModel {
       numberOfMembers: json['numberOfMembers'] as String?,
       numberOfChildren: json['numberOfChildren'] as String?,
       pwdNumber: json['pwdNumber'] as String?,
+      destinationId: json['destinationId'] as String?,
+      price: json['price'] as String?,
+      name: json['name'] as String?,
     );
   }
 
@@ -41,6 +50,9 @@ class BookingModel {
     data['idNumber'] = idNumber;
     data['numberOfChildren'] = numberOfChildren;
     data['pwdNumber'] = pwdNumber;
+    data['destinationId'] = destinationId;
+    data['price'] = price;
+    data['name'] = name;
     return data;
   }
 }

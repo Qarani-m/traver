@@ -13,10 +13,7 @@ class DestinationModel {
   String? about;
   List<dynamic>? gallery;
   LatLng? cords;
-  // String? price;
-  // String? price;
-  // String? price;
-
+ 
   // Constructor
   DestinationModel({
     this.destinationId,
@@ -30,9 +27,7 @@ class DestinationModel {
     this.about,
     this.gallery,
     this.cords,
-    // this.price,
-    // this.price,
-    // this.price,
+
   });
 
   // Factory method to create an instance from a JSON map
@@ -51,9 +46,7 @@ class DestinationModel {
      cords: LatLng(
         (json['cords'].latitude as double?) ?? 0.0,
         (json['cords'].longitude as double?) ?? 0.0,)
-      // price: json['price'] as String?,
-      // price: json['price'] as String?,
-      // price: json['price'] as String?,
+
     );
   }
 
