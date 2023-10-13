@@ -83,7 +83,7 @@ class AboutPlace extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TopBar(
-                                  text: "${destinationData?.name}",
+                                  text: "${destinationData.name}",
                                   widget: IconTheme(
                                       data: iconTheme,
                                       child: Icon(
@@ -127,7 +127,7 @@ class AboutPlace extends StatelessWidget {
                                           Padding(
                                             padding: EdgeInsets.only(left: 5.h),
                                             child: Text(
-                                                "${destinationData?.name}",
+                                                "${destinationData.name}",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyMedium
@@ -142,7 +142,7 @@ class AboutPlace extends StatelessWidget {
                                                 top: 3.h,
                                                 bottom: 3.h),
                                             child: Text(
-                                              "${destinationData?.mantra}",
+                                              "${destinationData.mantra}",
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -166,7 +166,7 @@ class AboutPlace extends StatelessWidget {
                                                   child: const Icon(Icons
                                                       .location_on_outlined)),
                                               Text(
-                                                "${destinationData?.location?.split(" ")[0]}, ",
+                                                "${destinationData.location?.split(" ")[0]}, ",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall
@@ -177,7 +177,7 @@ class AboutPlace extends StatelessWidget {
                                                 width: 5.h,
                                               ),
                                               Text(
-                                                  "${destinationData?.location?.split(" ")[1]}, ",
+                                                  "${destinationData.location?.split(" ")[1]}, ",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall
@@ -197,7 +197,7 @@ class AboutPlace extends StatelessWidget {
                                                 RatingBar.builder(
                                                   unratedColor: Colors.white,
                                                   initialRating: double.parse(
-                                                      "${destinationData?.starCount}"),
+                                                      "${destinationData.starCount}"),
                                                   minRating: 1,
                                                   direction: Axis.horizontal,
                                                   allowHalfRating: true,
@@ -214,7 +214,7 @@ class AboutPlace extends StatelessWidget {
                                                   width: 5.w,
                                                 ),
                                                 Text(
-                                                  "${destinationData?.starCount}",
+                                                  "${destinationData.starCount}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall
@@ -273,9 +273,6 @@ class AboutPlace extends StatelessWidget {
                                                     homePageController
                                                         .whatsIncludedIcons(
                                                             key),
-                                                    // Icons.flight_outlined,
-                                                    // icon,
-                                                    // includedIcons[index],
                                                     color: AppColors
                                                         .secondaryColor,
                                                   )),
@@ -283,7 +280,6 @@ class AboutPlace extends StatelessWidget {
                                                 width: 20.w,
                                               ),
                                               Text(
-                                                // destinationDa
                                                 key,
                                                 style: textTheme.bodySmall,
                                               )
@@ -312,7 +308,7 @@ class AboutPlace extends StatelessWidget {
                               ),
                               SizedBox(
                                 child: ParsedReadMore(
-                                  "${destinationData?.about}",
+                                  "${destinationData.about}",
                                   trimMode: TrimMode.line,
                                   trimLines: 3,
                                   delimiterStyle:
@@ -348,9 +344,10 @@ class AboutPlace extends StatelessWidget {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: List.generate(
-                                    3,
+                                    (destinationData.gallery?.length)!,
+                                    // 1,?
                                     (index) => Container(
                                           height: 100.h,
                                           width: 100.w,
@@ -358,13 +355,15 @@ class AboutPlace extends StatelessWidget {
                                               image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: AssetImage(
-                                                    "${destinationData?.gallery?[index]}",
+                                                    "assets/images/image1.jpg",
+
+                                                    // "${destinationData.gallery?[index]}",
                                                   )),
                                               color: Colors.red,
                                               borderRadius:
                                                   BorderRadius.circular(20.r)),
                                           child: index == 2 &&
-                                                  (destinationData?.gallery
+                                                  (destinationData.gallery
                                                               ?.length)! -
                                                           3 !=
                                                       0
@@ -379,7 +378,7 @@ class AboutPlace extends StatelessWidget {
                                                               20.r)),
                                                   child: Center(
                                                     child: Text(
-                                                      "${(destinationData?.gallery?.length)! - 3}+",
+                                                      "${(destinationData.gallery?.length)! - 3}+",
                                                       style: textTheme
                                                           .titleMedium
                                                           ?.copyWith(
@@ -419,7 +418,7 @@ class AboutPlace extends StatelessWidget {
                                 height: 30.h,
                               ),
                               Text(
-                                "Reviews (99)",
+                                "Reviews (${homePageController.reviewCountHeader.value})",
                                 style: textTheme.titleMedium
                                     ?.copyWith(fontSize: 19.sp),
                               ),
@@ -428,7 +427,7 @@ class AboutPlace extends StatelessWidget {
                               ),
                               FutureBuilder(
                                   future: homePageController.getReviews(
-                                      destinationData!.destinationId!),
+                                      destinationData.destinationId!),
                                   builder: (BuildContext context,
                                       AsyncSnapshot snapshot2) {
                                     if (snapshot2.connectionState ==
@@ -447,18 +446,21 @@ class AboutPlace extends StatelessWidget {
                                       );
                                     } else {
                                       final reviewData = snapshot2.data;
+                                      homePageController.reviewCountHeader
+                                          .value = reviewData.length.toString();
                                       return Column(
                                         children: List.generate(
-                                            10,
+                                          // 1,
+                                            reviewData.length,
                                             (index) => Review(
                                                   reviewModel: ReviewModel(
-                                                      name: reviewData[0]?.name,
-                                                      imageUrl: reviewData[0]
+                                                      name: reviewData[index]?.name,
+                                                      imageUrl: reviewData[index]
                                                           ?.imageUrl,
-                                                      date: reviewData[1]?.date,
-                                                      starCount: reviewData[0]
+                                                      date: reviewData[index]?.date,
+                                                      starCount: reviewData[index]
                                                           ?.starCount,
-                                                      review: reviewData[0]
+                                                      review: reviewData[index]
                                                           ?.review),
                                                 )),
                                       );

@@ -11,7 +11,7 @@ class DestinationModel {
   String? mantra;
   List<Map<String, bool>>? whatsIncluded;
   String? about;
-  List<String>? gallery;
+  List<dynamic>? gallery;
   LatLng? cords;
   // String? price;
   // String? price;
@@ -47,7 +47,7 @@ class DestinationModel {
       mantra: json['price'] as String?,
       whatsIncluded: json['whatsIncluded'] as List<Map<String,bool>>?,
       about: json['about'] as String?,
-      gallery: json['gallery'] as List<String>?,
+      gallery: json['gallery'] as List<dynamic>?,
      cords: LatLng(
         (json['cords'].latitude as double?) ?? 0.0,
         (json['cords'].longitude as double?) ?? 0.0,)

@@ -4,6 +4,7 @@ class ReviewModel {
   String? imageUrl;
   String? starCount;
   String? review;
+  // String? destinationId;
 
   ReviewModel({
     this.name,
@@ -11,6 +12,7 @@ class ReviewModel {
     this.imageUrl,
     this.starCount,
     this.review,
+    // this.destinationId
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class ReviewModel {
       imageUrl: json['price'] as String?,
       starCount: json['price'] as String?,
       review: json['price'] as String?,
+      // destinationId: json['destinationId'] as String?,
     );
   }
 
@@ -32,6 +35,7 @@ class ReviewModel {
     data['imageUrl'] = imageUrl;
     data['starCount'] = starCount;
     data['review'] = review;
+    // data['destinationId'] = destinationId;
     return data;
   }
 }

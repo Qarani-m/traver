@@ -102,14 +102,7 @@ class HomePageController extends GetxController with HomePageMixin {
             location: data['location'],
             starCount: data['starCount'],
             about: data['about'],
-            // gallery:data["gallery"],
-            gallery: [
-              AppImageStrings.onboarding[0],
-              AppImageStrings.onboarding[1],
-              AppImageStrings.onboarding[2],
-              AppImageStrings.onboarding[2],
-              AppImageStrings.onboarding[2],
-            ],
+            gallery: data["gallery"].map((item) => item.toString()).toList(),
             cords: LatLng(
               data['cords'].latitude,
               data['cords'].longitude,
@@ -137,22 +130,45 @@ class HomePageController extends GetxController with HomePageMixin {
     BookingModel();
   }
 
+RxString reviewCountHeader = "0".obs;
+
+DateTime timestampToDateTime(Timestamp timestamp) {
+  return timestamp.toDate();
+}
+
   Future<List<ReviewModel>> getReviews(String id) async {
-    // get from firebase and map the data to the model
-    return [
-      ReviewModel(
-          name: "Some name",
-          imageUrl: "-",
-          date: "-",
-          starCount: "2",
-          review: "Some review"),
-      ReviewModel(
-          name: "Some name 1",
-          imageUrl: "--->",
-          date: "-",
-          starCount: "2",
-          review: "Some review")
-    ];
+    try {
+      final CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('reviews');
+      QuerySnapshot querySnapshot =
+          await collectionReference.where('destinationId', isEqualTo: "12").get();
+
+      List<ReviewModel> reviews = [];
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (QueryDocumentSnapshot document in querySnapshot.docs) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+  DateTime date = timestampToDateTime(data['date'] as Timestamp);
+
+          ReviewModel review = ReviewModel(
+            name: data['name'] ?? "Unknown",
+            imageUrl: data['imageUrl'] ?? "DefaultImageUrl",
+            date: date.toString() ,
+            starCount: data['starCount'] ?? "0",
+            review: data['review'] ?? "No review available",
+          );
+
+          reviews.add(review);
+        }
+      }
+
+      print(reviews);
+
+      return reviews;
+    } catch (e) {
+      print('Error fetching reviews: $e');
+      return [];
+    }
   }
 
   @override
