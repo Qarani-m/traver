@@ -14,7 +14,6 @@ import 'package:traver/src/features/trips/screens/trips_details.dart';
 class Trips extends StatelessWidget {
   Trips({super.key});
   TripsController tripsController = Get.find<TripsController>();
-  // HomePageController homePageController = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class Trips extends StatelessWidget {
           ),
           child: FutureBuilder(
               future:
-                  tripsController.getBookedTours("homePageController.email.value"),
+                  tripsController.getBookedTours(tripsController.email),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -49,7 +48,7 @@ class Trips extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "List Your Trips",
+                        "List Your Trips ",
                         style: textTheme.titleMedium,
                       ),
                       SizedBox(

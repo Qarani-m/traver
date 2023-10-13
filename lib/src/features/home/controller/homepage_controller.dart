@@ -18,9 +18,8 @@ class HomePageController extends GetxController with HomePageMixin {
   RxString phone = "3".obs;
   RxList<String> intrests = <String>[].obs;
   RxInt currentPageIndex = 0.obs;
-
-  List pages = [HomePage(),  Trips(), const WishList(), Profile()];
-
+  List pages = [HomePage(), Trips(), const WishList(), Profile()];
+ 
   @override
   void onInit() async {
     super.onInit();
