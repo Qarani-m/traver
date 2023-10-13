@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/features/home/models/booking_model.dart';
@@ -49,23 +50,21 @@ class HomePageController extends GetxController with HomePageMixin {
     Icons.directions_bus_outlined
   ];
 
- IconData? whatsIncludedIcons(String include) {
-  List<Map<String, IconData>> allIncludes = [
-    {"flight": Icons.flight_outlined},
-    {"business": Icons.business},
-    // Add more items as needed
-  ];
+  IconData? whatsIncludedIcons(String include) {
+    List<Map<String, IconData>> allIncludes = [
+      {"flight": Icons.flight_outlined},
+      {"business": Icons.business},
+      // Add more items as needed
+    ];
 
-  for (final item in allIncludes) {
-    if (item.containsKey(include)) {
-      return item[include]!;
+    for (final item in allIncludes) {
+      if (item.containsKey(include)) {
+        return item[include]!;
+      }
     }
+
+    return null;
   }
-
-  return null;
-}
-
-
 
   Future<DestinationModel> getPlaceDetails(String destinationId) async {
     try {
@@ -77,7 +76,7 @@ class HomePageController extends GetxController with HomePageMixin {
       if (querySnapshot.docs.isNotEmpty) {
         Map<String, dynamic> data =
             querySnapshot.docs[0].data() as Map<String, dynamic>;
-        print(data['whatsIncluded'].runtimeType);
+        print(data["gallery"].runtimeType);
 
         final List<dynamic> dynamicData = data['whatsIncluded'];
 
@@ -103,26 +102,19 @@ class HomePageController extends GetxController with HomePageMixin {
             location: data['location'],
             starCount: data['starCount'],
             about: data['about'],
+            // gallery:data["gallery"],
             gallery: [
-              // App
               AppImageStrings.onboarding[0],
               AppImageStrings.onboarding[1],
               AppImageStrings.onboarding[2],
               AppImageStrings.onboarding[2],
               AppImageStrings.onboarding[2],
             ],
-            cordinates: [45.521563, -122.677433],
-            whatsIncluded: convertedData
-            // whatsIncluded: [
-            //   {
-            //     "key1": Icons.flight_outlined,
-            //   },
-            //   {
-            //     "key2": Icons.business,
-            //   },
-            //   // {"key3": Icons.directions_bus_outlined},
-            // ],
-            );
+            cords: LatLng(
+              data['cords'].latitude,
+              data['cords'].longitude,
+            ),
+            whatsIncluded: convertedData);
       } else {
         print('Document with destinationId $destinationId not found.');
         return DestinationModel();

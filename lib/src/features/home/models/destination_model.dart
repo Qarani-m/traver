@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DestinationModel {
   String? destinationId;
@@ -11,7 +12,7 @@ class DestinationModel {
   List<Map<String, bool>>? whatsIncluded;
   String? about;
   List<String>? gallery;
-  List<double>? cordinates;
+  LatLng? cords;
   // String? price;
   // String? price;
   // String? price;
@@ -28,7 +29,7 @@ class DestinationModel {
     this.whatsIncluded,
     this.about,
     this.gallery,
-    this.cordinates,
+    this.cords,
     // this.price,
     // this.price,
     // this.price,
@@ -47,7 +48,9 @@ class DestinationModel {
       whatsIncluded: json['whatsIncluded'] as List<Map<String,bool>>?,
       about: json['about'] as String?,
       gallery: json['gallery'] as List<String>?,
-      cordinates: json['cordinates'] as List<double>?,
+     cords: LatLng(
+        (json['cords'].latitude as double?) ?? 0.0,
+        (json['cords'].longitude as double?) ?? 0.0,)
       // price: json['price'] as String?,
       // price: json['price'] as String?,
       // price: json['price'] as String?,
@@ -67,7 +70,10 @@ class DestinationModel {
     data['whatsIncluded'] = whatsIncluded;
     data['about'] = about;
     data['gallery'] = gallery;
-    data['cordinates'] = cordinates;
+    data['cords'] = {
+      'latitude': cords?.latitude,
+      'longitude': cords?.longitude,
+    };
     // data['mantra'] = mantra;
     // data['mantra'] = mantra;
     return data;

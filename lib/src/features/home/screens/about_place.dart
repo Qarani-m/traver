@@ -63,10 +63,6 @@ class AboutPlace extends StatelessWidget {
                   };
                 }).toList();
 
-
-
-
-
                 return
                     //     }
                     // })
@@ -244,11 +240,11 @@ class AboutPlace extends StatelessWidget {
                               SizedBox(
                                 height: 50.h,
                                 child: ListView.builder(
-                                  itemCount:whatsIncluded.length,
+                                  itemCount: whatsIncluded.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    final item =whatsIncluded[index];
+                                    final item = whatsIncluded[index];
                                     final key = item.keys.first;
                                     // final icon = item?[key];
                                     return Row(
@@ -274,7 +270,9 @@ class AboutPlace extends StatelessWidget {
                                               IconTheme(
                                                   data: iconTheme,
                                                   child: Icon(
-                                                    homePageController.whatsIncludedIcons(key),
+                                                    homePageController
+                                                        .whatsIncludedIcons(
+                                                            key),
                                                     // Icons.flight_outlined,
                                                     // icon,
                                                     // includedIcons[index],
@@ -411,9 +409,8 @@ class AboutPlace extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20.r)),
                                 child: GoogleMap(
                                   onMapCreated: _onMapCreated,
-                                  initialCameraPosition: const CameraPosition(
-                                    // target: LatLng(45.521563, -122.677433),
-                                    target: LatLng(45.521563, -122.677433),
+                                  initialCameraPosition: CameraPosition(
+                                    target: destinationData.cords!,
                                     zoom: 11.0,
                                   ),
                                 ),
