@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:traver/src/features/home/models/booking_model.dart';
 import 'package:traver/src/features/home/models/destination_model.dart';
 import 'package:traver/src/features/home/models/review_model.dart';
@@ -12,14 +13,15 @@ import 'package:traver/src/features/profile/screens/profile.dart';
 import 'package:traver/src/features/trips/screens/trips.dart';
 import 'package:traver/src/features/wishlist/screens/wishlist.dart';
 
-class HomePageController extends GetxController with HomePageMixin {
+class HomePageController extends GetxController
+    with HomePageMixin {
   RxString name = "1".obs;
   RxString email = "2".obs;
   RxString phone = "3".obs;
   RxList<String> intrests = <String>[].obs;
   RxInt currentPageIndex = 0.obs;
-  List pages = [HomePage(), Trips(),  WishList(), Profile()];
- 
+  List pages = [HomePage(), Trips(), WishList(), Profile()];
+
   @override
   void onInit() async {
     super.onInit();
@@ -32,6 +34,9 @@ class HomePageController extends GetxController with HomePageMixin {
   }
 
   void placeDetails(String placeId) {
+
+    print("----->$placeId");
+
     Get.to(AboutPlace(), arguments: {"destinationId": placeId});
   }
 
@@ -66,12 +71,11 @@ class HomePageController extends GetxController with HomePageMixin {
       final CollectionReference collectionReference =
           FirebaseFirestore.instance.collection('destinations');
       QuerySnapshot querySnapshot = await collectionReference
-          .where('destinationId', isEqualTo: "12")
+          .where('destinationId', isEqualTo: destinationId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         Map<String, dynamic> data =
             querySnapshot.docs[0].data() as Map<String, dynamic>;
-        print(data["gallery"].runtimeType);
 
         final List<dynamic> dynamicData = data['whatsIncluded'];
 
@@ -104,11 +108,9 @@ class HomePageController extends GetxController with HomePageMixin {
             ),
             whatsIncluded: convertedData);
       } else {
-        print('Document with destinationId $destinationId not found.');
         return DestinationModel();
       }
     } catch (e) {
-      print('Error fetching document: $e');
       return DestinationModel();
     }
   }
@@ -185,11 +187,8 @@ class HomePageController extends GetxController with HomePageMixin {
         }
       }
 
-      print(reviews);
-
       return reviews;
     } catch (e) {
-      print('Error fetching reviews: $e');
       return [];
     }
   }
@@ -201,8 +200,58 @@ class HomePageController extends GetxController with HomePageMixin {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------
 mixin HomePageMixin on GetxController {
   RxList<dynamic> likedDestinations = <String>[].obs;
+
+  Future<List<DestinationModel>> getFavouritePlacesPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> destinations =
+        prefs.getStringList("intrests") ?? ["beach", "mountain", "camping"];
+    return await getFavouritePlaces(destinations);
+  }
+
+  Future<List<DestinationModel>> getFavouritePlaces(List<String> tags) async {
+    try {
+      CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('destinations');
+
+      QuerySnapshot querySnapshot =
+          await collectionReference.where('tag', whereIn: tags).get();
+
+      List<QueryDocumentSnapshot> destinationDocs = querySnapshot.docs;
+
+      List<DestinationModel> destinationList = destinationDocs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        DestinationModel destinationModel = DestinationModel(
+            name: data['name'],
+            price: data['price'],
+            starCount: data['starCount'],
+            mantra: data['mantra'],
+            destinationId: data["destinationId"],
+            imageUrl: data["imageUrl"],
+            location: data["location"]);
+        return destinationModel;
+      }).toList();
+
+      return destinationList;
+    } catch (e) {
+      print('Error fetching destinations: $e');
+      return [];
+    }
+  }
 
   Future<void> toggleLike(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

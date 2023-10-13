@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/image_strings.dart';
 import 'package:traver/src/constants/size.dart';
@@ -171,7 +173,7 @@ class HomePage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(Search());
+                  Get.to( Search());
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -198,8 +200,9 @@ class HomePage extends StatelessWidget {
                 height: 20.h,
               ),
               GestureDetector(
-                  onTap: () => Get.to(Categorys()),
-                  child: RightLeft(left: "Choose Category", right: "See all")),
+                  onTap: () => Get.to(const Categorys()),
+                  child: const RightLeft(
+                      left: "Choose Category", right: "See all")),
               SizedBox(
                 height: 10.h,
               ),
@@ -254,22 +257,42 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              SizedBox(
-                  height: 260.h,
-                  child: ListView.builder(
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return FavouritePlace(
-                          destinationModel: DestinationModel(
-                              destinationId: "${index}kli",
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/traver-79d4b.appspot.com/o/destinations%2Fpexels-photo-5372613.jpeg?alt=media&token=65c42c57-6705-4ed2-92a4-5f087c010630&_gl=1*gthss5*_ga*OTU2MDYyODE5LjE2OTYzNTE3MTQ.*_ga_CW55HF8NVT*MTY5Njg0MzI2MC4yMy4xLjE2OTY4NDM0ODAuMzcuMC4w",
-                              starCount: "3.8",
-                              location: "Bali Indonesia",
-                              name: "Kuta beach"));
-                    },
-                  )),
+              FutureBuilder(
+                  future: homePageController.getFavouritePlacesPrefs(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center();
+                    } else if (snapshot.hasError) {
+                      return SizedBox(
+                        height: 260.h,
+                        width: 390.w,
+                        child: Center(
+                            child: Text(
+                          "An Error occured, try relaunching the app",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )),
+                      );
+                    } else {
+                      final snapData = snapshot.data;
+                      return SizedBox(
+                          height: 260.h,
+                          child: ListView.builder(
+                            itemCount: snapData.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return FavouritePlace(
+                                  destinationModel: DestinationModel(
+                                name: snapData[index].name,
+                                destinationId: snapData[index].destinationId,
+                                imageUrl: snapData[index].imageUrl,
+                                starCount: snapData[index].starCount,
+                                price: snapData[index].price,
+                                location: snapData[index].location,
+                              ));
+                            },
+                          ));
+                    }
+                  }),
               SizedBox(
                 height: 20.h,
               ),
@@ -289,9 +312,8 @@ class HomePage extends StatelessWidget {
                             location: "Bali Indonesia",
                             name: "Kuta beach",
                             price: "21908",
-                            mantra: "A resort is a place used for relaxation, vacation and as a destination for all that are willing"
-                            
-                            ))),
+                            mantra:
+                                "A resort is a place used for relaxation, vacation and as a destination for all that are willing"))),
               )
             ],
           ),

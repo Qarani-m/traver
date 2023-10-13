@@ -194,14 +194,19 @@ class ProfileController extends GetxController
 }
 
 mixin CustomerCareMixin on GetxController {
+  static String email = "";
+
+  static String eemail(){return email;}
   final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
       .collection('cutomerCareMessages')
-      .where('senderEmail', isEqualTo: 'emqarani@gmail.com')
+      .where('senderEmail', isEqualTo: eemail)
       .snapshots();
 
   TextEditingController messageController = TextEditingController();
   @override
   void onInit() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    email = prefs.getString(email)!;
     super.onInit();
   }
 

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:traver/src/features/auth/controllers/signup_controller.dart';
 import 'package:traver/src/features/home/controller/homepage_controller.dart';
+import 'package:traver/src/features/home/controller/searc_controller.dart';
 import 'package:traver/src/features/notifications/controller/notification_controller.dart';
 import 'package:traver/src/features/profile/controller/profile_controller.dart';
 import 'package:traver/src/features/trips/screens/controllers/trips_home_controller.dart';
@@ -14,6 +15,13 @@ class AppBindings implements Bindings{
     Get.lazyPut<HomePageController>(() =>HomePageController() );
     Get.lazyPut<TripsController>(() =>TripsController() );
     Get.lazyPut<WishListController>(() =>WishListController() );
+    Get.lazyPut<SearchPageController>(() => SearchPageController());
+    // Get.lazyPut(() => );
+    // Get.lazyPut(() => );
+    // Get.lazyPut(() => );
+    // Get.lazyPut(() => );
+    // Get.lazyPut(() => );
+    // Get.lazyPut(() => );
     // Get.lazyPut(() => );
     // Get.lazyPut(() => );
   }
