@@ -7,8 +7,8 @@ import 'package:traver/src/constants/colors.dart';
 import 'package:traver/src/constants/size.dart';
 import 'package:traver/src/features/home/controller/homepage_controller.dart';
 import 'package:traver/src/features/home/models/booking_model.dart';
+import 'package:traver/src/features/trips/controllers/trips_home_controller.dart';
 import 'package:traver/src/features/trips/screens/about_trip.dart';
-import 'package:traver/src/features/trips/screens/controllers/trips_home_controller.dart';
 import 'package:traver/src/features/trips/screens/trips_details.dart';
 
 class Trips extends StatelessWidget {

@@ -26,12 +26,18 @@ class ProfileController extends GetxController
   RxBool errorStatus = false.obs;
   RxBool successStatus = false.obs;
   RxBool isUpdatingProfilePic = false.obs;
+  String textEmail = "";
 
   @override
   void onInit() async {
     super.onInit();
     await getPrefs();
     personalInfoFieldFiller();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    textEmail = preferences.getString("email")??"";
+
+
+
   }
 
   Future<String> getMixinEmail() async {
@@ -194,19 +200,19 @@ class ProfileController extends GetxController
 }
 
 mixin CustomerCareMixin on GetxController {
-  static String email = "";
 
-  static String eemail(){return email;}
-  final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
-      .collection('cutomerCareMessages')
-      .where('senderEmail', isEqualTo: eemail)
-      .snapshots();
+  String email="";
+  late Stream<QuerySnapshot> messageStream ;
 
   TextEditingController messageController = TextEditingController();
   @override
   void onInit() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs= await SharedPreferences.getInstance();
     email = prefs.getString(email)!;
+     messageStream =FirebaseFirestore.instance
+      .collection('cutomerCareMessages')
+      .where('senderEmail', isEqualTo: email)
+      .snapshots();
     super.onInit();
   }
 

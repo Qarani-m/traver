@@ -26,50 +26,52 @@ class WishList extends StatelessWidget {
         top: 50.h,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           Text(
-            "List Your Trips",
+            "Your trips wishlist",
             style: textTheme.titleMedium,
           ),
           SizedBox(
             height: 50.h,
           ),
-          SizedBox(
-              height: 60.h,
-              width: 390.w,
-              child: TextField(
-                style: textTheme.bodySmall?.copyWith(fontSize: 17.sp),
-                cursorColor: brightness == Brightness.dark
-                    ? AppColors.fadedTextColor
-                    : AppColors.darkColor,
-                decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.only(left: 23.w, top: 15.h, bottom: 15.h),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: brightness == Brightness.dark
-                              ? AppColors.fadedTextColor.withOpacity(0.1)
-                              : AppColors
-                                  .fadedTextColor), // Set the border color when focused
-                      borderRadius:
-                          BorderRadius.circular(20.r), // Set the border radius
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: brightness == Brightness.dark
-                              ? AppColors.fadedTextColor.withOpacity(0.1)
-                              : AppColors
-                                  .fadedTextColor), // Set the border color when not focused
-                      borderRadius:
-                          BorderRadius.circular(15.h), // Set the border radius
-                    ),
-                    hintMaxLines: 1,
-                    hintText: "Search destination",
-                    hintStyle: textTheme.bodySmall),
-              )),
-          SizedBox(
-            height: 30.h,
-          ),
+          // SizedBox(
+          //     height: 60.h,
+          //     width: 390.w,
+          //     child: TextField(
+          //       style: textTheme.bodySmall?.copyWith(fontSize: 17.sp),
+          //       cursorColor: brightness == Brightness.dark
+          //           ? AppColors.fadedTextColor
+          //           : AppColors.darkColor,
+          //       decoration: InputDecoration(
+          //           contentPadding:
+          //               EdgeInsets.only(left: 23.w, top: 15.h, bottom: 15.h),
+          //           focusedBorder: OutlineInputBorder(
+          //             borderSide: BorderSide(
+          //                 color: brightness == Brightness.dark
+          //                     ? AppColors.fadedTextColor.withOpacity(0.1)
+          //                     : AppColors
+          //                         .fadedTextColor), // Set the border color when focused
+          //             borderRadius:
+          //                 BorderRadius.circular(20.r), // Set the border radius
+          //           ),
+          //           enabledBorder: OutlineInputBorder(
+          //             borderSide: BorderSide(
+          //                 color: brightness == Brightness.dark
+          //                     ? AppColors.fadedTextColor.withOpacity(0.1)
+          //                     : AppColors
+          //                         .fadedTextColor), // Set the border color when not focused
+          //             borderRadius:
+          //                 BorderRadius.circular(15.h), // Set the border radius
+          //           ),
+          //           hintMaxLines: 1,
+          //           hintText: "Search destination",
+          //           hintStyle: textTheme.bodySmall),
+          //     )),
+          // SizedBox(
+          //   height: 30.h,
+          // ),
           FutureBuilder(
               future: wishListController.getLiked(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {

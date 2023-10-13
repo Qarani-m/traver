@@ -261,7 +261,10 @@ class HomePage extends StatelessWidget {
                   future: homePageController.getFavouritePlacesPrefs(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center();
+                      return Center(
+                      child: LoadingAnimationWidget.threeArchedCircle(
+                          color: AppColors.secondaryColor.withOpacity(0.5),
+                          size: 30.h));
                     } else if (snapshot.hasError) {
                       return SizedBox(
                         height: 260.h,

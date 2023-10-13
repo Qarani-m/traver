@@ -25,6 +25,10 @@ class CustomerCare extends StatelessWidget {
             ? AppColors.fadedTextColor
             : AppColors.darkColor;
 
+
+
+            
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -73,12 +77,12 @@ class CustomerCare extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasError) {
-                                Text("An error occured",
+                              return   Text("An error occured",
                                     style: textTheme.bodySmall
                                         ?.copyWith(color: AppColors.likeColor));
                               }
 
-                              if (snapshot.connectionState ==
+                              else if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Padding(
                                   padding: EdgeInsets.all(10.h),
@@ -89,7 +93,7 @@ class CustomerCare extends StatelessWidget {
                                             size: 40.h),
                                   ),
                                 );
-                              }
+                              }else{
                               return Column(
                                   children: snapshot.data!.docs
                                       .map((DocumentSnapshot document) {
@@ -105,7 +109,7 @@ class CustomerCare extends StatelessWidget {
                                         text: data['message'].toString(),
                                         time: DateFormat('HH:mm')
                                             .format(data['time'].toDate())):const SizedBox();
-                              }).toList());
+                              }).toList());}
                             },
                           )
                         ],
@@ -120,6 +124,7 @@ class CustomerCare extends StatelessWidget {
                         height: 60.h,
                         width: 390.w,
                         child: TextField(
+                          onEditingComplete: ()=>profileController.sendText(),
                           controller: profileController.messageController,
                           onChanged: (val) => profileController
                               .messageLength.value = val.length,
