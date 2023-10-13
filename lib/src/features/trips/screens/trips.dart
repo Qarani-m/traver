@@ -30,8 +30,7 @@ class Trips extends StatelessWidget {
             top: 50.h,
           ),
           child: FutureBuilder(
-              future:
-                  tripsController.getBookedTours(tripsController.email),
+              future: tripsController.getBookedTours(tripsController.email),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -44,6 +43,10 @@ class Trips extends StatelessWidget {
                         Text("An error occured,", style: textTheme.bodySmall),
                   );
                 } else {
+                  // final tripsData = snapshot.data;
+                  List<Map<String, String>> tripsData = snapshot.data;
+                  List<Map<String, String>> bookedTours = snapshot.data;
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -93,10 +96,20 @@ class Trips extends StatelessWidget {
                       SizedBox(
                         height: 30.h,
                       ),
-                      // OneTrip(textTheme: textTheme, iconTheme: iconTheme),
-                      // OneTrip(textTheme: textTheme, iconTheme: iconTheme),
-                      // OneTrip(textTheme: textTheme, iconTheme: iconTheme),
-                      // OneTrip(textTheme: textTheme, iconTheme: iconTheme),
+                      Column(
+                        children: List.generate(bookedTours.length, (index) {
+                          Map<String, String> bookedTour = bookedTours[index];
+                          // You can access individual items within bookedTour as needed
+                          return OneTrip(
+                            bookingModel: BookingModel(
+                              name: bookedTour["name"] ?? "-",
+                              price: bookedTour["price"] ?? "-",
+                              destinationId: bookedTour["destinationId"] ?? "-",
+
+                            ),
+                          );// Text(bookedTour["emailAddress"]??"-");
+                        }),
+                      )
                     ],
                   );
                 }
@@ -108,21 +121,24 @@ class Trips extends StatelessWidget {
 class OneTrip extends StatelessWidget {
   OneTrip({
     super.key,
-    required this.textTheme,
-    required this.iconTheme,
+
     required this.bookingModel,
   });
 
-final BookingModel bookingModel;
-  final TextTheme textTheme;
-  final IconThemeData iconTheme;
+  final BookingModel bookingModel;
+
 
   @override
   Widget build(BuildContext context) {
+     var textTheme = Theme.of(context).textTheme;
+    var iconTheme = Theme.of(context).iconTheme;
     var brightness = MediaQuery.of(context).platformBrightness;
 
     return GestureDetector(
-      onTap: () => Get.to(AboutTrip()),
+      onTap: () => Get.to(
+        
+       arguments: {"destinationId": bookingModel.destinationId},
+        AboutTrip()),
       child: Padding(
         padding: EdgeInsets.only(bottom: 20.h),
         child: Container(
@@ -153,7 +169,7 @@ final BookingModel bookingModel;
               height: 10.h,
             ),
             Text(
-              "Ksh 21900",
+              "Ksh ${bookingModel.price}",
               style: textTheme.bodySmall?.copyWith(color: AppColors.likeColor),
             ),
             SizedBox(
